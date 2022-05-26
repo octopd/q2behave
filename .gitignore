@@ -1,0 +1,15 @@
+node_modules
+
+.DS_STORE
+
+.env
+
+*.pem
+
+server/dist
+server/build
+server/.env
+
+client/build
+
+.github/workflows/client

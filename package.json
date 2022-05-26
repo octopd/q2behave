@@ -1,0 +1,25 @@
+{
+  "name": "q2behave",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "yarn -cwd client build",
+    "client": "yarn --cwd client start",
+    "dev": " concurrently \"yarn --cwd client start\" \"yarn --cwd server server\"",
+    "postinstall": "yarn --cwd client && yarn --cwd server",
+    "start": "yarn dev"
+  },
+  "author": "Evan Gray",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^7.1.0",
+    "express-delay": "^0.2.0",
+    "nodemon": "^2.0.7",
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "node-cron": "^3.0.0"
+  }
+}
