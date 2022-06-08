@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios"
 import _ from "lodash"
 import { RootStateOrAny } from "react-redux"
 import { Dispatch } from "redux"
-import { DATA_REQUEST, DATA_SUCCESS, DATA_FAIL, SENSORS_REQUEST, SENSORS_SUCCESS, SENSORS_FAIL, DEVICES_SUCCESS, DEVICES_REQUEST, DEVICES_FAIL, } from "../constants/dataConstants"
+import { DATA_REQUEST, DATA_SUCCESS, DATA_FAIL, SENSORS_REQUEST, SENSORS_SUCCESS, SENSORS_FAIL, DEVICES_SUCCESS, DEVICES_REQUEST, DEVICES_FAIL, DATA_SOURCES_FILTERED, } from "../constants/dataConstants"
 
 export interface SensorChild {
     name: string
@@ -33,12 +33,12 @@ export const getData = () => async (dispatch: Dispatch, getState: RootStateOrAny
         const { data } = await axios.get(`/api/data/${start}/${end}`)
 
         console.log(data)
+        const dataSets = Object.keys(data).filter(x => x !== "timestamp")
 
-        // dispatch({
-        //     type: DATA_SUCCESS,
-        //     payload: data,
-        // })
-
+        dispatch({
+            type: DATA_SUCCESS,
+            payload: { data, dataSets },
+        })
 
         if (data) {
             console.log(_.round(((new Date().getTime() - begin) / 1000), 2) + " seconds to finish...")
@@ -115,6 +115,11 @@ export const getDevices = () => async (dispatch: Dispatch) => {
 
         dispatch({
             type: DEVICES_SUCCESS,
+            payload: data,
+        })
+
+        dispatch({
+            type: DATA_SOURCES_FILTERED,
             payload: data,
         })
 

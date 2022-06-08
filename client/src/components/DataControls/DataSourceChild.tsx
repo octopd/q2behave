@@ -1,7 +1,6 @@
 import { Checkbox, ListItemText, MenuItem } from '@mui/material'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { DATA_SOURCES_FILTERED } from '../../constants/dataConstants'
-import { useDataSetInfo } from '../../hooks/useDataSetInfo'
 
 interface Props {
   dataSet: string
@@ -9,7 +8,6 @@ interface Props {
 
 const DataSourceChild = ({ dataSet }: Props) => {
   const dispatch = useDispatch()
-  const dataSetInfo = useDataSetInfo(dataSet)
 
   const { filteredDataSources } = useSelector(
     (state: RootStateOrAny) => state.dataSources
@@ -33,12 +31,12 @@ const DataSourceChild = ({ dataSet }: Props) => {
   }
 
   return (
-    <MenuItem value={dataSetInfo.name} onClick={() => handleMenuClick(dataSet)}>
+    <MenuItem value={dataSet} onClick={() => handleMenuClick(dataSet)}>
       <Checkbox
         checked={filteredDataSources.indexOf(dataSet) > -1}
         color="primary"
       />
-      <ListItemText primary={dataSetInfo.name} />
+      <ListItemText primary={dataSet} />
     </MenuItem>
   )
 }

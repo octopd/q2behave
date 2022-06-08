@@ -28,29 +28,65 @@ const getData = asyncHandler(async (req, res) => {
   const { start, end } = req.params
   const a = new Date().getTime()
 
-  console.log(start, end)
+  let data: any = {}
 
+  const keys = [
+    'Accel_X',
+    'Accel_Y',
+    'Accel_Z',
+    'AudioLevel',
+    'Gyro_X',
+    'Gyro_Y',
+    'Gyro_Z',
+    'HeartRate',
+    'Magno_X',
+    'Magno_Y',
+    'Magno_Z',
+  ]
 
-  //TODO: Speed up this query by choosing columns, 
-  // TODO: Is "Event Timestamp better than UTCTics?
-  const query =
+  const deviceQuery = `SELECT DeviceName from devices`
+
+  const sensorDataQuery =
     `SELECT *
-      FROM sensordata
-      WHERE UTCTics BETWEEN '${start}' AND '${end}'
-      ORDER BY UTCTics DESC;`
+    FROM sensordata
+    WHERE UTCTics BETWEEN '${start}' AND '${end}'
+    ORDER BY UTCTics DESC;`
 
-  conn.query(query, function (err: any, result: any, fields: any) {
+
+  conn.query(deviceQuery, function (err: any, devices: any, fields: any) {
     if (err) throw err;
 
-    if (result) {
+    //TODO: Speed up this query by choosing columns, 
 
-      const b = new Date().getTime()
-      console.log(`Request time to finish: ${(b - a) / 1000} seconds`)
+    conn.query(sensorDataQuery, function (err: any, result: any, fields: any) {
+      if (err) throw err;
 
+      if (result) {
+        const b = new Date().getTime()
 
-      res.status(201).json(result)
-    }
+        if (result.length) {
 
+          for (let i = 0; i < devices.length; i++) {
+
+            for (let j = 0; j < keys.length; j++) {
+              const name = `${devices[i].DeviceName}_${keys[j]}`
+              data[`${name}`] = []
+            }
+          }
+
+          for (let i = 0; i < result.length; i++) {
+            for (let j = 0; j < keys.length; j++) {
+              data[`${result[i].DeviceID}_${keys[j]}`].push([result[i].UTCTics, result[i][keys[j]]])
+            }
+          }
+        }
+
+        console.log(`Request time to finish: ${(b - a) / 1000} seconds`)
+
+        res.status(201).json(data)
+
+      }
+    });
   });
 })
 
@@ -60,20 +96,18 @@ const getData = asyncHandler(async (req, res) => {
 // @access  Public //TODO: Make private
 const getDevices = asyncHandler(async (req, res) => {
   //TODO: Add error handling
-  const query = `SELECT * from devices`
+  const query = `SELECT DeviceName from devices`
 
   conn.query(query, function (err: any, result: any, fields: any) {
     if (err) throw err;
 
-    const data = Object.values(JSON.parse(JSON.stringify(result)));
+    const data = result.map((x: any) => x.DeviceName)
 
     if (data) {
       res.status(201).json(data)
     }
-
   });
 })
-
 
 
 export { getData, getDevices }

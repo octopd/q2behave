@@ -1,7 +1,7 @@
 import { DateRange } from '@mui/lab'
 import { createContext, useState, FC, useEffect } from 'react'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
-import { getData, getDevices, getSensors } from '../actions/dataActions'
+import { getData, getDevices } from '../actions/dataActions'
 
 export type ContextState = {
   setDataIsSet: (val: boolean) => void
@@ -32,7 +32,6 @@ export const Context = createContext<ContextState>(contextDefaultValues)
 const ContextProvider: FC = ({ children }) => {
   const dispatch = useDispatch()
   const { dateRange } = useSelector((state: RootStateOrAny) => state.dateRange)
-  const { devices } = useSelector((state: RootStateOrAny) => state.devices)
 
   const [date, setDate] = useState<DateRange<Date>>(dateRange)
   const [timeStart, setTimeStart] = useState(dateRange[0])
@@ -41,15 +40,13 @@ const ContextProvider: FC = ({ children }) => {
   const [dataIsSet, setDataIsSet] = useState(false)
 
   useEffect(() => {
-    dispatch(getDevices())
-  }, [dispatch, dateRange])
-
-  useEffect(() => {
-    if (devices && devices.length && !dataIsSet) {
+    if (!dataIsSet) {
+      dispatch(getDevices())
       dispatch(getData())
+
       setDataIsSet(true)
     }
-  }, [dispatch, devices, dataIsSet])
+  }, [dispatch, dataIsSet])
 
   return (
     <Context.Provider

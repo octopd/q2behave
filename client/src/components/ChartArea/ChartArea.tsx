@@ -44,13 +44,19 @@ const NoDataToDisplay = styled.div`
 const ChartArea = () => {
   const { isDarkTheme } = useContext(Context)
 
-  const { loading, data } = useSelector((state: RootStateOrAny) => state.data)
+  const { loading, dataSets } = useSelector(
+    (state: RootStateOrAny) => state.data
+  )
+
+  const dataExists = !loading && dataSets && dataSets.length ? true : false
+
+  console.log(dataExists)
 
   return (
     <ChartCard $isDarkTheme={isDarkTheme}>
       {loading ? (
         <LoadingSpinner />
-      ) : !data.length ? (
+      ) : !dataExists ? (
         <NoDataToDisplay>
           No results. Please select a new date range.
         </NoDataToDisplay>

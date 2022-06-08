@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import {
   Checkbox,
   FormControl,
@@ -8,41 +7,40 @@ import {
   Select,
 } from '@mui/material'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
-import { DATA_TYPES, DATA_TYPES_FILTERED } from '../../constants/dataConstants'
-import _ from 'lodash'
+import { DATA_TYPES_FILTERED } from '../../constants/dataConstants'
 import { SelectAll } from './DataSourceSelector'
-import { SensorParent } from '../../actions/dataActions'
+
+export interface DataType {
+  name: string
+  key: string
+}
+
+export const dataTypesList: DataType[] = [
+  { name: 'Acceleration X', key: 'Accel_X' },
+  { name: 'Acceleration Y', key: 'Accel_Y' },
+  { name: 'Acceleration Z', key: 'Accel_Z' },
+  { name: 'Audio Level', key: 'AudioLevel' },
+  { name: 'Gyro X', key: 'Gyro_X' },
+  { name: 'Gyro Y', key: 'Gyro_Y' },
+  { name: 'Gyro Z', key: 'Gyro_Z' },
+  { name: 'Heart Rate', key: 'HeartRate' },
+  { name: 'Magno X', key: 'Magno_X' },
+  { name: 'Magno Y', key: 'Magno_Y' },
+  { name: 'Magno Z', key: 'Magno_Z' },
+]
 
 const DataTypeSelector = () => {
   const dispatch = useDispatch()
-  const [options, setOptions] = useState<string[]>(['All'])
 
   const { dataTypes, filteredDataTypes } = useSelector(
     (state: RootStateOrAny) => state.dataTypes
   )
-
-  const { sensors } = useSelector((state: RootStateOrAny) => state.sensors)
 
   const someChecked = filteredDataTypes && filteredDataTypes.length > 0
   const allChecked =
     filteredDataTypes && filteredDataTypes.length >= dataTypes.length
   const displayValue =
     filteredDataTypes && !allChecked ? filteredDataTypes : ['All']
-
-  useEffect(() => {
-    if (sensors && sensors.length) {
-      const menuOptions = [
-        ...new Set(
-          _.flatMap(sensors, (x: SensorParent) => {
-            return [...x.sensors]
-          }).map((x) => x.name)
-        ),
-      ]
-
-      dispatch({ type: DATA_TYPES, payload: menuOptions })
-      setOptions(menuOptions)
-    }
-  }, [dispatch, sensors])
 
   const handleAllClick = () => {
     if (allChecked) {
@@ -89,17 +87,17 @@ const DataTypeSelector = () => {
         </SelectAll>
 
         {filteredDataTypes &&
-          options.map((option: string, index: number) => (
+          dataTypesList.map((type: DataType, index: number) => (
             <MenuItem
               key={index}
-              value={option}
-              onClick={() => handleMenuClick(option)}
+              value={type.key}
+              onClick={() => handleMenuClick(type.key)}
             >
               <Checkbox
-                checked={filteredDataTypes.indexOf(option) > -1}
+                checked={filteredDataTypes.indexOf(type.key) > -1}
                 color="primary"
               />
-              <ListItemText primary={option} />
+              <ListItemText primary={type.name} />
             </MenuItem>
           ))}
       </Select>

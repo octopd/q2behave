@@ -1,6 +1,7 @@
 import { DateRange } from "@mui/lab";
 import { Action } from "redux"
 import { SensorParent } from "../actions/dataActions";
+import { DataType, dataTypesList } from "../components/DataControls/DataTypeSelector";
 import { DATA_FAIL, DATA_REQUEST, DATA_SOURCES, DATA_SOURCES_FILTERED, DATA_SUCCESS, DATA_TYPES, DATA_TYPES_FILTERED, DATE_RANGE_RESET, DATE_RANGE_UPDATE, DEVICES_FAIL, DEVICES_REQUEST, DEVICES_SUCCESS, HOT_BUTTON_RESET, HOT_BUTTON_SELECTION, SENSORS_FAIL, SENSORS_REQUEST, SENSORS_SUCCESS, ZOOM_ENABLE, ZOOM_RESET, ZOOM_SET } from "../constants/dataConstants"
 import { HotButtonValues } from "../enum"
 
@@ -16,6 +17,8 @@ export const dataReducer = (
         case DATA_REQUEST:
             return { ...state, loading: true, success: false }
         case DATA_SUCCESS:
+
+            console.log(action.payload)
             return { ...state, loading: false, success: true, data: action.payload.data, dataSets: action.payload.dataSets }
         case DATA_FAIL:
             return { loading: false, error: action.payload }
@@ -39,8 +42,8 @@ export const dataSourcesReducer = (
 }
 
 export const dataTypesReducer = (
-    state = { dataTypes: [], filteredDataTypes: [], },
-    action: ActionWithPayload<any> //TODO: Define type here...
+    state = { dataTypes: dataTypesList, filteredDataTypes: dataTypesList, },
+    action: ActionWithPayload<DataType[]>
 ) => {
     switch (action.type) {
         case DATA_TYPES:

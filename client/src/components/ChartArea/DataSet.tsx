@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
 import { useContext } from 'react'
-import { useDataSetInfo } from '../../hooks/useDataSetInfo'
 import { Context } from '../../providers/ContextProvider'
 
 interface Props {
@@ -45,13 +44,12 @@ const DataSetRow = styled.div<RowProps>`
 `
 
 const DataSet = ({ name, color }: Props) => {
-  const dataSetInfo = useDataSetInfo(name)
   const { isDarkTheme } = useContext(Context)
 
   return (
     <DataSetRow color={color} isDarkTheme={isDarkTheme}>
-      <div className="dot name">{dataSetInfo.name}</div>
-      <div className="unit">{dataSetInfo.unit}</div>
+      <div className="dot name">{name}</div>
+      <div className="unit">Unit...</div>
     </DataSetRow>
   )
 }

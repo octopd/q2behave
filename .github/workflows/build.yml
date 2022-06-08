@@ -1,4 +1,4 @@
-name: Verify, build Docker image, and push to DH
+name: Verify, build Docker image, and push to ACR
 
 on:
   push:
