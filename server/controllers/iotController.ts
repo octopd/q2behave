@@ -69,14 +69,14 @@ const getData = asyncHandler(async (req, res) => {
           for (let i = 0; i < devices.length; i++) {
 
             for (let j = 0; j < keys.length; j++) {
-              const name = `${devices[i].DeviceName}_${keys[j]}`
+              const name = `${devices[i].DeviceName}-${keys[j]}`
               data[`${name}`] = []
             }
           }
 
           for (let i = 0; i < result.length; i++) {
             for (let j = 0; j < keys.length; j++) {
-              data[`${result[i].DeviceID}_${keys[j]}`].push([result[i].UTCTics, result[i][keys[j]]])
+              data[`${result[i].DeviceID}-${keys[j]}`].push([result[i].UTCTics, result[i][keys[j]]])
             }
           }
         }

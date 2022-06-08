@@ -32,8 +32,6 @@ const DataSourceSelector = () => {
   )
   const { devices } = useSelector((state: RootStateOrAny) => state.devices)
 
-  console.log(filteredDataSources)
-
   const someChecked =
     filteredDataSources && filteredDataSources.length ? true : false
   const allChecked =
@@ -44,7 +42,6 @@ const DataSourceSelector = () => {
     filteredDataSources && !allChecked ? filteredDataSources : ['All']
 
   const handleChange = () => {
-    console.log(allChecked)
     if (allChecked) {
       dispatch({ type: DATA_SOURCES_FILTERED, payload: [] })
     } else {

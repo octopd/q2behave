@@ -27,7 +27,7 @@ const Header = () => {
     <AppBar elevation={0} position="static" color="secondary">
       <StyledToolbar>
         <Menu onClick={changeTheme} />
-        <Logo>OCTO IQ</Logo>
+        <Logo>Q2Behave</Logo>
         <AccountCircle />
       </StyledToolbar>
     </AppBar>

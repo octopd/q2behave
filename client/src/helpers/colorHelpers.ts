@@ -13,13 +13,8 @@ export const colors: string[] = [
     '#012749',
 ]
 
-export const assignColor = (index: number) => {
-    let color: string = ''
-    if (index < colors.length) {
-        color = colors[index]
-    } else {
-        color = colors[index % colors.length]
-    }
+export const assignColor = () => {
+    const color = colors[Math.floor(Math.random() * colors.length)];
 
     return color
 }

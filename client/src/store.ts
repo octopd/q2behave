@@ -1,13 +1,12 @@
 import { composeWithDevTools } from '@redux-devtools/extension'
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 import thunk from 'redux-thunk'
-import { dataReducer, dataSourcesReducer, dataTypesReducer, dateRangeReducer, devicesReducer, hotButtonReducer, zoomReducer, sensorsReducer } from './reducers/dataReducer'
+import { dataReducer, dataSourcesReducer, dataTypesReducer, dateRangeReducer, devicesReducer, hotButtonReducer, zoomReducer } from './reducers/dataReducer'
 
 const reducer = combineReducers({
     data: dataReducer,
     dataSources: dataSourcesReducer,
     dataTypes: dataTypesReducer,
-    sensors: sensorsReducer,
     devices: devicesReducer,
     dateRange: dateRangeReducer,
     hotButton: hotButtonReducer,

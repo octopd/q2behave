@@ -1,10 +1,10 @@
 import styled from '@emotion/styled'
 import { useContext } from 'react'
+import { DataSet } from '../../actions/dataActions'
 import { Context } from '../../providers/ContextProvider'
 
 interface Props {
-  name: string
-  color: string
+  dataSet: DataSet
 }
 
 interface RowProps {
@@ -43,15 +43,17 @@ const DataSetRow = styled.div<RowProps>`
   }
 `
 
-const DataSet = ({ name, color }: Props) => {
+const LegendItem = ({ dataSet }: Props) => {
   const { isDarkTheme } = useContext(Context)
 
+  console.log(dataSet)
+
   return (
-    <DataSetRow color={color} isDarkTheme={isDarkTheme}>
-      <div className="dot name">{name}</div>
+    <DataSetRow color={dataSet.color} isDarkTheme={isDarkTheme}>
+      <div className="dot name">{dataSet.dataType}</div>
       <div className="unit">Unit...</div>
     </DataSetRow>
   )
 }
 
-export default DataSet
+export default LegendItem

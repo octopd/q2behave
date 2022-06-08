@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Context } from '../../providers/ContextProvider'
 import ToolBox from './ZoomControls'
 import Chart from './Chart'
-import DataSets from './DataSets'
+import Legend from './Legend'
 import { RootStateOrAny, useSelector } from 'react-redux'
 
 interface StyledProps {
@@ -44,19 +44,17 @@ const NoDataToDisplay = styled.div`
 const ChartArea = () => {
   const { isDarkTheme } = useContext(Context)
 
-  const { loading, dataSets } = useSelector(
-    (state: RootStateOrAny) => state.data
-  )
+  const { loading, data } = useSelector((state: RootStateOrAny) => state.data)
 
-  const dataExists = !loading && dataSets && dataSets.length ? true : false
-
-  console.log(dataExists)
+  const noData = Object.keys(data).every(function (key) {
+    return data[key].length === 0
+  })
 
   return (
     <ChartCard $isDarkTheme={isDarkTheme}>
       {loading ? (
         <LoadingSpinner />
-      ) : !dataExists ? (
+      ) : noData ? (
         <NoDataToDisplay>
           No results. Please select a new date range.
         </NoDataToDisplay>
@@ -73,7 +71,7 @@ const ChartArea = () => {
           </div>
 
           <DataSetsContainer>
-            <DataSets />
+            <Legend />
           </DataSetsContainer>
         </>
       )}

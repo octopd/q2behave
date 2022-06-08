@@ -1,8 +1,26 @@
 import { DateRange } from "@mui/lab";
 import { Action } from "redux"
-import { SensorParent } from "../actions/dataActions";
+import { DataSet } from "../actions/dataActions";
 import { DataType, dataTypesList } from "../components/DataControls/DataTypeSelector";
-import { DATA_FAIL, DATA_REQUEST, DATA_SOURCES, DATA_SOURCES_FILTERED, DATA_SUCCESS, DATA_TYPES, DATA_TYPES_FILTERED, DATE_RANGE_RESET, DATE_RANGE_UPDATE, DEVICES_FAIL, DEVICES_REQUEST, DEVICES_SUCCESS, HOT_BUTTON_RESET, HOT_BUTTON_SELECTION, SENSORS_FAIL, SENSORS_REQUEST, SENSORS_SUCCESS, ZOOM_ENABLE, ZOOM_RESET, ZOOM_SET } from "../constants/dataConstants"
+import {
+    DATA_FAIL,
+    DATA_REQUEST,
+    DATA_SOURCES,
+    DATA_SOURCES_FILTERED,
+    DATA_SUCCESS,
+    DATA_TYPES,
+    DATA_TYPES_FILTERED,
+    DATE_RANGE_RESET,
+    DATE_RANGE_UPDATE,
+    DEVICES_FAIL,
+    DEVICES_REQUEST,
+    DEVICES_SUCCESS,
+    HOT_BUTTON_RESET,
+    HOT_BUTTON_SELECTION,
+    ZOOM_ENABLE,
+    ZOOM_RESET,
+    ZOOM_SET
+} from "../constants/dataConstants"
 import { HotButtonValues } from "../enum"
 
 export interface ActionWithPayload<T> extends Action {
@@ -10,16 +28,14 @@ export interface ActionWithPayload<T> extends Action {
 }
 
 export const dataReducer = (
-    state = { data: [], dataSets: [], dataSources: [], filteredDataSources: [], dataTypes: [], filteredDataTypes: [], loading: false },
-    action: ActionWithPayload<any> //TODO: Define type here...
+    state = { data: [], dataSets: [], dataSources: [], loading: false },
+    action: ActionWithPayload<DataSet[]>
 ) => {
     switch (action.type) {
         case DATA_REQUEST:
             return { ...state, loading: true, success: false }
         case DATA_SUCCESS:
-
-            console.log(action.payload)
-            return { ...state, loading: false, success: true, data: action.payload.data, dataSets: action.payload.dataSets }
+            return { ...state, loading: false, success: true, data: action.payload, dataSets: Object.keys(action.payload) }
         case DATA_FAIL:
             return { loading: false, error: action.payload }
         default:
@@ -50,22 +66,6 @@ export const dataTypesReducer = (
             return { ...state, dataTypes: action.payload, filteredDataTypes: action.payload }
         case DATA_TYPES_FILTERED:
             return { ...state, filteredDataTypes: action.payload }
-        default:
-            return state
-    }
-}
-
-export const sensorsReducer = (
-    state = { sensors: [], loading: false },
-    action: ActionWithPayload<SensorParent[]>
-) => {
-    switch (action.type) {
-        case SENSORS_REQUEST:
-            return { loading: true, success: false }
-        case SENSORS_SUCCESS:
-            return { ...state, loading: false, success: true, sensors: action.payload }
-        case SENSORS_FAIL:
-            return { loading: false, error: action.payload }
         default:
             return state
     }
