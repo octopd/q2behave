@@ -17,7 +17,7 @@ const NODE_ENV = process.env.NODE_ENV
 
 app.use(express.json())
 app.use('/api', iotRoutes)
-app.use('/', (req, res) => res.redirect("https://q2behave.netlify.app/"))
+app.use('/', (req, res) => res.send('server is running...'))
 
 app.listen(
   PORT,
