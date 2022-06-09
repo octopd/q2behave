@@ -2,7 +2,7 @@ import { RootStateOrAny, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import LegendItem from './LegendItem'
 import { DataSet } from '../../actions/dataActions'
-import { DataType, dataTypesList } from '../DataControls/DataTypeSelector'
+// import { DataType, dataTypesList } from '../DataControls/DataTypeSelector'
 
 const Label = styled.div`
   font-size: 18px;

@@ -1,0 +1,52 @@
+name: Generate FE Build, Replace Web storate files...
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '16.15.0'
+  STORAGE_ACCOUNT_NAME: 'q2behavestorage'
+  CDN_PROFILE_NAME: 'cdn-profile-q2behave'
+  CDN_ENDPOINT: 'https://q2behave.azureedge.net'
+  RESOURCE_GROUP: 'Q2Behave'
+
+permissions:
+  contents: read
+
+jobs:
+  buildAndDeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: npm install, build...
+        run: |
+          npm --prefix client install
+          npm --prefix client run build
+
+      - name: Login to azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Upload to blob storage
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az storage blob upload-batch --account-name ${{ env.STORAGE_ACCOUNT_NAME }} --auth-mode key --overwrite true -d '$web' -s ./client/build
+
+      #### Uncomment once caching is applied
+      # - name: Purge CDN endpoint
+      #   uses: azure/CLI@v1
+      #   with:
+      #     inlineScript: |
+      #       az cdn endpoint purge --content-paths  "/*" --profile-name "${{ env.CDN_PROFILE_NAME }}" --name "${{ env.CDN_ENDPOINT }}" --resource-group "${{ env.RESOURCE_GROUP }}"

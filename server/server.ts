@@ -4,7 +4,7 @@ import iotRoutes from "./routes/iotRoutes"
 import cors from "cors"
 
 const corsOptions = {
-  origin: 'https://q2behave.netlify.app',
+  origin: 'https://q2behavestorage.z13.web.core.windows.net',
   optionsSuccessStatus: 200
 }
 
