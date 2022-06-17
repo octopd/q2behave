@@ -7,9 +7,9 @@ import { assignColor } from "../helpers/colorHelpers"
 
 export interface DataSet {
     name: string
-    deviceId: string
+    deviceID: string
     dataType: string
-    data: [number, number],
+    dataPoints: [{ x: number, y: number }],
     showInLegend: boolean,
     color: string,
     marker: { symbol: string }
@@ -31,16 +31,10 @@ export const getData = () => async (dispatch: Dispatch, getState: RootStateOrAny
 
         const { data } = await axios.get(`/api/data/${start}/${end}`)
 
-        const formattedData: DataSet[] = Object.keys(data).map((x: string, index: number) => ({
-            name: x,
-            deviceId: x.substring(0, x.indexOf('-')),
-            dataType: x.split('-')[1],
-            data: data[x],
-            showInLegend: false,
+        const formattedData = data.map((x: DataSet, index: number) => ({
+            ...x,
             color: assignColor(),
-            marker: {
-                symbol: 'triangle'
-            }
+            type: 'spline',
         }))
 
         dispatch({
@@ -71,8 +65,6 @@ export const getDevices = () => async (dispatch: Dispatch) => {
         const {
             data
         } = await axios.get(`/api/devices`)
-
-        console.log(data)
 
         dispatch({
             type: DEVICES_SUCCESS,

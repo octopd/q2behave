@@ -2,7 +2,7 @@ import { RootStateOrAny, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import LegendItem from './LegendItem'
 import { DataSet } from '../../actions/dataActions'
-// import { DataType, dataTypesList } from '../DataControls/DataTypeSelector'
+import { useDataSetsInView } from '../../hooks/useDataSetsInView'
 
 const Label = styled.div`
   font-size: 18px;
@@ -15,19 +15,22 @@ const ScrollableList = styled.div`
 `
 
 const Legend = () => {
-  const { data } = useSelector((state: RootStateOrAny) => state.data)
-  const { devices } = useSelector((state: RootStateOrAny) => state.devices)
+  const { filteredDataSources } = useSelector(
+    (state: RootStateOrAny) => state.dataSources
+  )
+
+  const dataSetsInView = useDataSetsInView()
 
   return (
     <>
       <Label>Data Sets</Label>
 
       <ScrollableList>
-        {devices.map((device: string, index: number) => (
+        {filteredDataSources.map((device: string, index: number) => (
           <div key={index}>
             <h4>{device}</h4>
-            {data
-              .filter((x: DataSet) => x.deviceId === device)
+            {dataSetsInView
+              .filter((x: DataSet) => x.deviceID === device)
               .map((x: DataSet) => (
                 <LegendItem key={x.name} dataSet={x} />
               ))}

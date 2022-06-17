@@ -45,13 +45,13 @@ export const dataReducer = (
 
 export const dataSourcesReducer = (
     state = { dataSources: [], filteredDataSources: [], },
-    action: ActionWithPayload<any> //TODO: Define type here...
+    action: ActionWithPayload<string[]>
 ) => {
     switch (action.type) {
         case DATA_SOURCES:
             return { ...state, dataSources: action.payload, filteredDataSources: action.payload }
         case DATA_SOURCES_FILTERED:
-            return { ...state, filteredDataSources: action.payload }
+            return { ...state, filteredDataSources: action.payload.sort() }
         default:
             return state
     }

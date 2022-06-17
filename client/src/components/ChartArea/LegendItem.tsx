@@ -2,6 +2,7 @@ import styled from '@emotion/styled'
 import { useContext } from 'react'
 import { DataSet } from '../../actions/dataActions'
 import { Context } from '../../providers/ContextProvider'
+import { dataTypesList } from '../DataControls/DataTypeSelector'
 
 interface Props {
   dataSet: DataSet
@@ -46,12 +47,16 @@ const DataSetRow = styled.div<RowProps>`
 const LegendItem = ({ dataSet }: Props) => {
   const { isDarkTheme } = useContext(Context)
 
-  console.log(dataSet)
+  const mostRecentValue = dataSet.dataPoints.length
+    ? dataSet.dataPoints[dataSet.dataPoints.length - 1].y
+    : 'n/a'
+
+  const name = dataTypesList.find((x) => x.key === dataSet.name)
 
   return (
     <DataSetRow color={dataSet.color} isDarkTheme={isDarkTheme}>
-      <div className="dot name">{dataSet.dataType}</div>
-      <div className="unit">Unit...</div>
+      <div className="dot name">{name && name.name}</div>
+      <div className="unit">{mostRecentValue} Unit</div>
     </DataSetRow>
   )
 }

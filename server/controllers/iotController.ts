@@ -1,7 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import _ from 'lodash'
 import mysql from 'mysql2'
-const fs = require('fs');
+const fs = require('fs')
 
 const DB_HOST = process.env.DB_HOST
 const DB_USER = process.env.DB_USER
@@ -15,7 +15,7 @@ const conn = mysql.createPool({
   database: DB_NAME,
   port: 3306,
   ssl: {}
-});
+})
 
 
 // @desc    Get data
@@ -29,6 +29,8 @@ const getData = asyncHandler(async (req, res) => {
   const a = new Date().getTime()
 
   let data: any = {}
+
+  let dataSets: string[] = []
 
   const keys = [
     'Accel_X',
@@ -44,7 +46,16 @@ const getData = asyncHandler(async (req, res) => {
     'Magno_Z',
   ]
 
-  const deviceQuery = `SELECT DeviceName from devices`
+  const devices = [
+    'SSW4WearOS01',
+    'SSW4WearOS02',
+    'SSW4WearOS03',
+    'SSW4WearOS04',
+    'SSW4WearOS05',
+    'SSW4WearOS06',
+    'SSW4WearOS07',
+    'SSW4WearOS08',
+  ]
 
   const sensorDataQuery =
     `SELECT *
@@ -53,41 +64,43 @@ const getData = asyncHandler(async (req, res) => {
     ORDER BY UTCTics DESC;`
 
 
-  conn.query(deviceQuery, function (err: any, devices: any, fields: any) {
+  //TODO: Speed up this query by choosing columns that Oana is interested in
+
+  conn.query(sensorDataQuery, function (err: any, result: any, fields: any) {
     if (err) throw err;
 
-    //TODO: Speed up this query by choosing columns, 
+    if (result) {
+      const b = new Date().getTime()
 
-    conn.query(sensorDataQuery, function (err: any, result: any, fields: any) {
-      if (err) throw err;
-
-      if (result) {
-        const b = new Date().getTime()
-
-        if (result.length) {
-
-          for (let i = 0; i < devices.length; i++) {
-
-            for (let j = 0; j < keys.length; j++) {
-              const name = `${devices[i].DeviceName}-${keys[j]}`
-              data[`${name}`] = []
-            }
-          }
-
-          for (let i = 0; i < result.length; i++) {
-            for (let j = 0; j < keys.length; j++) {
-              data[`${result[i].DeviceID}-${keys[j]}`].push([result[i].UTCTics, result[i][keys[j]]])
-            }
+      if (result.length) {
+        for (let i = 0; i < devices.length; i++) {
+          for (let j = 0; j < keys.length; j++) {
+            const name = `${devices[i]}-${keys[j]}`
+            data[`${name}`] = []
+            dataSets.push(name)
           }
         }
 
-        console.log(`Request time to finish: ${(b - a) / 1000} seconds`)
-
-        res.status(201).json(data)
-
+        for (let i = 0; i < result.length; i++) {
+          for (let j = 0; j < keys.length; j++) {
+            data[`${result[i].DeviceID}-${keys[j]}`].push({ x: result[i].UTCTics, y: result[i][keys[j]] })
+          }
+        }
       }
-    });
-  });
+
+      const formattedData = dataSets.map((dataSet: string, index: number) => {
+        return {
+          name: dataSet.split("-")[1],
+          dataPoints: data[dataSet],
+          deviceID: dataSet.split("-")[0]
+        }
+      })
+
+      console.log(`Request time to finish: ${(b - a) / 1000} seconds`)
+
+      res.status(201).json(formattedData)
+    }
+  })
 })
 
 
@@ -99,14 +112,14 @@ const getDevices = asyncHandler(async (req, res) => {
   const query = `SELECT DeviceName from devices`
 
   conn.query(query, function (err: any, result: any, fields: any) {
-    if (err) throw err;
+    if (err) throw err
 
     const data = result.map((x: any) => x.DeviceName)
 
     if (data) {
       res.status(201).json(data)
     }
-  });
+  })
 })
 
 

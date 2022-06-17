@@ -14,9 +14,7 @@ const Container = styled.div`
 const ZoomControls = () => {
   const dispatch = useDispatch()
 
-  const { isZoomed, enabled } = useSelector(
-    (state: RootStateOrAny) => state.zoom
-  )
+  const { enabled } = useSelector((state: RootStateOrAny) => state.zoom)
 
   const handleEnableZoom = () => {
     dispatch({ type: ZOOM_ENABLE, payload: !enabled })
@@ -39,7 +37,7 @@ const ZoomControls = () => {
         <Button
           startIcon={<Refresh />}
           onClick={handleResetZoom}
-          disabled={!isZoomed}
+          disabled={!enabled}
         >
           Reset
         </Button>

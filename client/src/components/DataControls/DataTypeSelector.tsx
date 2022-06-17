@@ -50,17 +50,19 @@ const DataTypeSelector = () => {
     }
   }
 
-  const handleMenuClick = (value: string) => {
+  const handleMenuClick = (type: DataType) => {
     const newDataTypes = [...filteredDataTypes]
-    const exists = filteredDataTypes.indexOf(value) > -1
+
+    const exists = filteredDataTypes.some((x: DataType) => x.key === type.key)
 
     if (exists) {
-      const index = newDataTypes.indexOf(value)
+      const index = newDataTypes.findIndex((x: any) => x.key === type.key)
+
       if (index !== -1) {
         newDataTypes.splice(index, 1)
       }
     } else {
-      newDataTypes.push(value)
+      newDataTypes.push(type)
     }
 
     dispatch({ type: DATA_TYPES_FILTERED, payload: newDataTypes })
@@ -72,7 +74,9 @@ const DataTypeSelector = () => {
       <Select
         multiple
         value={displayValue}
-        renderValue={(val: string[]) => val.join(', ')}
+        renderValue={(val: DataType[]) =>
+          allChecked ? 'All' : val.map((x) => x.name).join(', ')
+        }
         label="Data Type"
       >
         <SelectAll value="all">
@@ -91,10 +95,12 @@ const DataTypeSelector = () => {
             <MenuItem
               key={index}
               value={type.key}
-              onClick={() => handleMenuClick(type.key)}
+              onClick={() => handleMenuClick(type)}
             >
               <Checkbox
-                checked={filteredDataTypes.indexOf(type.key) > -1}
+                checked={filteredDataTypes.some(
+                  (x: DataType) => x.key === type.key
+                )}
                 color="primary"
               />
               <ListItemText primary={type.name} />

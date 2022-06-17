@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import styled from 'styled-components'
 import { Context } from '../../providers/ContextProvider'
 import ToolBox from './ZoomControls'
-import Chart from './Chart'
+import LineGraph from './LineGraph'
 import Legend from './Legend'
 import { RootStateOrAny, useSelector } from 'react-redux'
 
@@ -46,15 +46,11 @@ const ChartArea = () => {
 
   const { loading, data } = useSelector((state: RootStateOrAny) => state.data)
 
-  const noData = Object.keys(data).every(function (key) {
-    return data[key].length === 0
-  })
-
   return (
     <ChartCard $isDarkTheme={isDarkTheme}>
       {loading ? (
         <LoadingSpinner />
-      ) : noData ? (
+      ) : !data || !data.length ? (
         <NoDataToDisplay>
           No results. Please select a new date range.
         </NoDataToDisplay>
@@ -67,7 +63,7 @@ const ChartArea = () => {
             }}
           >
             <ToolBox />
-            <Chart />
+            <LineGraph />
           </div>
 
           <DataSetsContainer>
