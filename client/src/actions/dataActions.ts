@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios"
 import _ from "lodash"
 import { RootStateOrAny } from "react-redux"
 import { Dispatch } from "redux"
-import { DATA_REQUEST, DATA_SUCCESS, DATA_FAIL, DEVICES_SUCCESS, DEVICES_REQUEST, DEVICES_FAIL, DATA_SOURCES_FILTERED, } from "../constants/dataConstants"
+import { DATA_FAIL, DATA_REQUEST, DATA_SOURCES_FILTERED, DATA_SUCCESS, DEVICES_FAIL, DEVICES_REQUEST, DEVICES_SUCCESS } from "../constants/dataConstants"
 import { assignColor } from "../helpers/colorHelpers"
 
 export interface DataSet {
@@ -64,7 +64,7 @@ export const getDevices = () => async (dispatch: Dispatch) => {
 
         const {
             data
-        } = await axios.get(`/api/devices`)
+        } = await axios.get(`/api/data/devices`)
 
         dispatch({
             type: DEVICES_SUCCESS,
