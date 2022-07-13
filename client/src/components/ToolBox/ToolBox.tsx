@@ -1,11 +1,12 @@
 import styled from '@emotion/styled'
 import { Button } from '@mui/material'
-import { RootStateOrAny, useSelector } from 'react-redux'
-import { CSVLink } from 'react-csv'
-import { useContext, useState } from 'react'
 import dayjs from 'dayjs'
-import ChartTypeSelector from './ChartTypeSelector'
+import { useContext, useState } from 'react'
+import { CSVLink } from 'react-csv'
+import { RootStateOrAny, useSelector } from 'react-redux'
+import { DataPoint, DataSet } from '../../actions/dataActions'
 import { Context } from '../../providers/ContextProvider'
+import ChartTypeSelector from './ChartTypeSelector'
 
 const Container = styled.div`
   display: flex;
@@ -34,17 +35,21 @@ const Toolbox = () => {
   const lastUpdated = loading ? false : dayjs(new Date()).format('h:mm:ss a')
 
   const handleCSVClick = () => {
-    // const formatted = sourceData.map((x: any) => {
-    //   const values = Object.values(x)[0]
+    const formatted = sourceData
+      .map((dataSet: DataSet) => {
+        return dataSet.dataPoints.map((dataPoint: DataPoint) => {
+          const row = {
+            timestamp: dataPoint.x,
+            name: dataSet.name,
+            watchID: dataSet.deviceID,
+            value: dataPoint.y,
+          }
+          return row
+        })
+      })
+      .flat()
 
-    //   return {
-    //     name: Object.keys(x)[1],
-    //     timestamp: x.timestamp,
-    //     ...(values as {}),
-    //   }
-    // })
-
-    setData(sourceData)
+    setData(formatted)
   }
 
   return (
@@ -61,7 +66,7 @@ const Toolbox = () => {
         <CSVLink
           data={data ? data : ''}
           onClick={handleCSVClick}
-          filename={'octoiq.csv'}
+          filename={'q2behave.csv'}
         >
           Download .CSV
         </CSVLink>
