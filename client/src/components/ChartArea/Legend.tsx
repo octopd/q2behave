@@ -1,8 +1,8 @@
 import { RootStateOrAny, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import LegendItem from './LegendItem'
-import { DataSet } from '../../actions/dataActions'
 import { useDataSetsInView } from '../../hooks/useDataSetsInView'
+import { DataSet } from '../../modules/data'
+import LegendItem from './LegendItem'
 
 const Label = styled.div`
   font-size: 18px;

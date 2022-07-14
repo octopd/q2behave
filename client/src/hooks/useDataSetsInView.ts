@@ -1,6 +1,6 @@
 import { RootStateOrAny, useSelector } from 'react-redux';
-import { DataSet } from '../actions/dataActions';
 import { DataType } from '../components/DataControls/DataTypeSelector';
+import { DataSet } from '../modules/data';
 
 export const useDataSetsInView = () => {
     const { data } = useSelector((state: RootStateOrAny) => state.data)

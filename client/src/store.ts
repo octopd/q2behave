@@ -1,8 +1,11 @@
 import { composeWithDevTools } from '@redux-devtools/extension'
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 import thunk from 'redux-thunk'
+import { dataReducer, dataSourcesReducer, dataTypesReducer } from './modules/data'
+import { dateRangeReducer, hotButtonReducer } from './modules/dateRange'
+import { devicesReducer } from './modules/devices'
 import { userLoginReducer } from './modules/userInfo'
-import { dataReducer, dataSourcesReducer, dataTypesReducer, dateRangeReducer, devicesReducer, hotButtonReducer, zoomReducer } from './reducers/dataReducer'
+import { zoomReducer } from './modules/zoom'
 
 const reducer = combineReducers({
     userLogin: userLoginReducer,
@@ -13,7 +16,6 @@ const reducer = combineReducers({
     dateRange: dateRangeReducer,
     hotButton: hotButtonReducer,
     zoom: zoomReducer,
-
 })
 
 const user = localStorage.getItem('userInfo')

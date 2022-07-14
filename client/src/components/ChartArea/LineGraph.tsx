@@ -1,8 +1,8 @@
-import CanvasJSReact from '../../assets/canvasjs-3.6.5/canvasjs.react'
-import { RootStateOrAny, useSelector } from 'react-redux'
-import { useDataSetsInView } from '../../hooks/useDataSetsInView'
 import dayjs from 'dayjs'
 import { useEffect, useRef, useState } from 'react'
+import { RootStateOrAny, useSelector } from 'react-redux'
+import CanvasJSReact from '../../assets/canvasjs-3.6.5/canvasjs.react'
+import { useDataSetsInView } from '../../hooks/useDataSetsInView'
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart
 
@@ -39,10 +39,12 @@ const LineGraph = () => {
     zoomType: 'xy',
     data: dataSetsInView,
     backgroundColor: 'transparent',
-    axisY: {
-      tickLength: 0,
-      labelFormatter: () => '',
-    },
+    axisY: [
+      {
+        tickLength: 0,
+        labelFormatter: () => '',
+      },
+    ],
     axisX: {
       labelFontColor: '#c2c7ce',
       labelFontSize: 12,

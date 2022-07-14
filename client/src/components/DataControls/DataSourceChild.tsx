@@ -1,6 +1,6 @@
 import { Checkbox, ListItemText, MenuItem } from '@mui/material'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
-import { DATA_SOURCES_FILTERED } from '../../constants/dataConstants'
+import { DATA_SOURCES_FILTERED } from '../../modules/data'
 
 interface Props {
   dataSet: string

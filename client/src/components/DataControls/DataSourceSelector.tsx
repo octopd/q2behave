@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { DATA_SOURCES_FILTERED } from '../../constants/dataConstants'
+import { DATA_SOURCES_FILTERED } from '../../modules/data'
 import DataSourceChild from './DataSourceChild'
 
 export const SelectAll = styled(ListSubheader)`
@@ -51,13 +51,13 @@ const DataSourceSelector = () => {
 
   return (
     <DSFormControl size="small" fullWidth>
-      <InputLabel>Data Source</InputLabel>
+      <InputLabel>Watches</InputLabel>
       <Select
         multiple
         value={displayValue}
         onChange={handleChange}
         renderValue={(val) => val.join(', ')}
-        label="Data Source"
+        label="Watches"
         MenuProps={{
           PaperProps: {
             style: {

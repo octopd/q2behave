@@ -7,7 +7,7 @@ import {
   Select,
 } from '@mui/material'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
-import { DATA_TYPES_FILTERED } from '../../constants/dataConstants'
+import { DATA_TYPES_FILTERED } from '../../modules/data'
 import { SelectAll } from './DataSourceSelector'
 
 export interface DataType {

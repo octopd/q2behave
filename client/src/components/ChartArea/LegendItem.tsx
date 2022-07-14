@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { useContext } from 'react'
-import { DataSet } from '../../actions/dataActions'
 import { Units } from '../../enum'
+import { DataSet } from '../../modules/data'
 import { Context } from '../../providers/ContextProvider'
 import { dataTypesList } from '../DataControls/DataTypeSelector'
 

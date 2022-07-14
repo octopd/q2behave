@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 import { useContext, useState } from 'react'
 import { CSVLink } from 'react-csv'
 import { RootStateOrAny, useSelector } from 'react-redux'
-import { DataPoint, DataSet } from '../../actions/dataActions'
+import { DataPoint, DataSet } from '../../modules/data'
 import { Context } from '../../providers/ContextProvider'
 import ChartTypeSelector from './ChartTypeSelector'
 

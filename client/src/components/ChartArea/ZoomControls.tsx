@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 import { Crop, Refresh } from '@mui/icons-material'
 import { Button } from '@mui/material'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
-import { ZOOM_ENABLE, ZOOM_RESET } from '../../constants/dataConstants'
+import { ZOOM_ENABLE, ZOOM_RESET } from '../../modules/zoom'
 
 const Container = styled.div`
   display: flex;
