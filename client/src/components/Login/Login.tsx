@@ -16,7 +16,7 @@ import TextInput from '../Form/TextInput'
 import Header from '../Header/Header'
 
 export interface LoginValues {
-  userName: string
+  email: string
   password: string
 }
 
@@ -49,7 +49,7 @@ const Login = () => {
   )
 
   const handleSubmit = (values: LoginValues) => {
-    dispatch(login(values.userName, values.password))
+    dispatch(login(values.email, values.password))
   }
 
   return (
@@ -58,14 +58,14 @@ const Login = () => {
       <Formik
         validateOnChange={false}
         initialValues={{
-          userName: '',
+          email: '',
           password: '',
         }}
         validate={(values: LoginValues) => {
           let errors: FormikErrors<LoginValues> = {}
 
-          if (!values.userName) {
-            errors.userName = 'This is a required field'
+          if (!values.email) {
+            errors.email = 'This is a required field'
           }
           if (!values.password) {
             errors.password = 'This is a required field'
@@ -97,12 +97,12 @@ const Login = () => {
                 <Grid item xs={12} className="p-b-32">
                   <TextInput
                     fullWidth
-                    name="userName"
-                    label="Username"
-                    value={props.values.userName}
+                    name="email"
+                    label="Email"
+                    value={props.values.email}
                     onChange={props.handleChange}
-                    error={error || !!props.errors.userName}
-                    helperText={props.errors.userName}
+                    error={error || !!props.errors.email}
+                    helperText={props.errors.email}
                   />
                 </Grid>
 

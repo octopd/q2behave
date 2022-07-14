@@ -11,7 +11,7 @@ export const USER_LOGIN_FAIL = 'USER_LOGIN_FAIL'
 const USER_LOGOUT = 'USER_LOGOUT'
 const USER_LOGOUT_RESET = 'USER_LOGOUT_RESET'
 
-export const login = (userName: string, password: string) => async (dispatch: Dispatch) => {
+export const login = (email: string, password: string) => async (dispatch: Dispatch) => {
     try {
         dispatch({ type: USER_LOGIN_REQUEST })
 
@@ -23,7 +23,7 @@ export const login = (userName: string, password: string) => async (dispatch: Di
 
         const { data } = await axios.post(
             '/api/user/signin',
-            { userName, password },
+            { email, password },
             config
         )
 

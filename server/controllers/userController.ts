@@ -3,8 +3,6 @@ import asyncHandler from 'express-async-handler'
 import mysql from 'mysql2'
 import generateToken from '../utils/generateToken'
 
-const fs = require('fs')
-
 const DB_HOST = process.env.DB_HOST
 const DB_USER = process.env.DB_USER
 const DB_PASSWORD = process.env.DB_PASSWORD
@@ -23,23 +21,26 @@ const conn = mysql.createPool({
 // @route   POST /api/user/signin
 // @access  Public
 const authUser = asyncHandler(async (req, res) => {
-    const { userName, password } = req.body
+    const { email, password } = req.body
 
+    const query = `SELECT * FROM users WHERE Email = '${email}' LIMIT 1`
+    conn.query(query, async function (err: any, result: any, fields: any) {
+        if (err) throw err
 
-    if (userName === "admin" && password === "password") {
+        const validPassword = await bcrypt.compare(password, result[0].EncyptedPassword)
 
-        res.json({
-            _id: "id",
-            firstName: "Octo",
-            lastName: "PD",
-            email: "info@octopd.com",
-            token: generateToken("id"),
-        })
+        if (validPassword) {
+            res.json({
+                firstName: result[0].FirstName,
+                lastName: result[0].LastName,
+                email: result[0].Email,
+                token: generateToken(result[0].UserID),
+            })
 
-    } else {
-        res.status(404).send('Incorrect user name or password')
-        throw new Error('Incorrect user name or password')
-    }
+        } else {
+            res.status(404).send('Incorrect user name or password')
+        }
+    })
 })
 
 // @desc    Add new user
@@ -47,10 +48,9 @@ const authUser = asyncHandler(async (req, res) => {
 // @access  Public
 const createUser = asyncHandler(async (req, res) => {
 
+    //TODO: Prevent multiple accounts
     const { email, password, firstName, lastName, admin } = req.body
 
-
-    console.log(admin)
     const encryptedPassword = await bcrypt.hash(password, 10)
 
     const query = `INSERT INTO 
@@ -61,8 +61,6 @@ const createUser = asyncHandler(async (req, res) => {
 
     conn.query(query, function (err: any, result: any, fields: any) {
         if (err) throw err
-
-        console.log(result)
 
         if (result) {
             res.status(201).json(result)
