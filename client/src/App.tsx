@@ -6,11 +6,12 @@ import {
 } from '@mui/material'
 import { useContext } from 'react'
 import { RootStateOrAny, useSelector } from 'react-redux'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import styled from 'styled-components'
-import Header from './components/Header/Header'
+import CreateAccount from './components/CreateAccount/CreateAccount'
 import Layout from './components/Layout/Layout'
 import Login from './components/Login/Login'
+import { UserRoles } from './enum'
 import ContextProvider, { Context } from './providers/ContextProvider'
 
 import './scss/App.scss'
@@ -65,11 +66,19 @@ function App() {
         theme={isDarkTheme ? createTheme(dark) : createTheme(light)}
       >
         <AppContainer isDarkTheme={isDarkTheme}>
-          <Header />
-
           <BrowserRouter>
             <Routes>
               <Route path="/" element={userInfo ? <Layout /> : <Login />} />
+              <Route
+                path="/create-account"
+                element={
+                  userInfo && userInfo.role !== UserRoles.ADMIN ? (
+                    <CreateAccount />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
             </Routes>
           </BrowserRouter>
         </AppContainer>

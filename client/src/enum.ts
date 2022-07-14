@@ -1,3 +1,8 @@
+export enum UserRoles {
+    ADMIN = "Administrator",
+    USER = "User"
+}
+
 export enum HotButtonValues {
     CUSTOM = "Custom date range",
     HOUR = 'Last Hour',
@@ -15,7 +20,7 @@ export enum Units {
     Gyro_Y = "°/s",
     Gyro_Z = "°/s",
     HeartRate = "bpm",
-    Magno_X = "G",
-    Magno_Y = "G",
-    Magno_Z = "G",
+    Magno_X = "µT",
+    Magno_Y = "µT",
+    Magno_Z = "µT",
 }

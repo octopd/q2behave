@@ -7,6 +7,7 @@ import { getDevices } from '../../modules/devices'
 import { Context } from '../../providers/ContextProvider'
 import ChartArea from '../ChartArea/ChartArea'
 import DataControls from '../DataControls/DataControls'
+import Header from '../Header/Header'
 import Toolbox from '../ToolBox/ToolBox'
 
 const ChartContainer = styled(Container)`
@@ -31,11 +32,14 @@ const Layout = () => {
   }, [dispatch, dataIsSet, setDataIsSet])
 
   return (
-    <ChartContainer maxWidth={false}>
-      <DataControls />
-      <ChartArea />
-      <Toolbox />
-    </ChartContainer>
+    <>
+      <Header />
+      <ChartContainer maxWidth={false}>
+        <DataControls />
+        <ChartArea />
+        <Toolbox />
+      </ChartContainer>
+    </>
   )
 }
 

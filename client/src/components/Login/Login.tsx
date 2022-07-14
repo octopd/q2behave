@@ -13,6 +13,7 @@ import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { login } from '../../modules/userInfo'
 import TextInput from '../Form/TextInput'
+import Header from '../Header/Header'
 
 export interface LoginValues {
   userName: string
@@ -52,97 +53,100 @@ const Login = () => {
   }
 
   return (
-    <Formik
-      validateOnChange={false}
-      initialValues={{
-        userName: '',
-        password: '',
-      }}
-      validate={(values: LoginValues) => {
-        let errors: FormikErrors<LoginValues> = {}
+    <>
+      <Header />
+      <Formik
+        validateOnChange={false}
+        initialValues={{
+          userName: '',
+          password: '',
+        }}
+        validate={(values: LoginValues) => {
+          let errors: FormikErrors<LoginValues> = {}
 
-        if (!values.userName) {
-          errors.userName = 'This is a required field'
-        }
-        if (!values.password) {
-          errors.password = 'This is a required field'
-        }
+          if (!values.userName) {
+            errors.userName = 'This is a required field'
+          }
+          if (!values.password) {
+            errors.password = 'This is a required field'
+          }
 
-        return errors
-      }}
-      onSubmit={handleSubmit}
-    >
-      {(props) => (
-        <CustomCard className="center-center">
-          <form onSubmit={props.handleSubmit}>
-            <h2>Welcome, back!</h2>
+          return errors
+        }}
+        onSubmit={handleSubmit}
+      >
+        {(props) => (
+          <CustomCard className="center-center">
+            <form onSubmit={props.handleSubmit}>
+              <h2>Welcome, back!</h2>
 
-            <p>
-              For detailed support, contact{' '}
-              <Link
-                href="mailto:info@octopd.com"
-                underline="none"
-                target="_blank"
-              >
-                <strong>info@octopd.com.</strong>
-              </Link>
-            </p>
+              <p>
+                For detailed support, contact{' '}
+                <Link
+                  href="mailto:info@octopd.com"
+                  underline="none"
+                  target="_blank"
+                >
+                  <strong>info@octopd.com.</strong>
+                </Link>
+              </p>
 
-            <Divider />
+              <Divider />
 
-            <Grid container>
-              <Grid item xs={12} className="p-b-32">
-                <TextInput
-                  fullWidth
-                  name="Username"
-                  label="userName"
-                  value={props.values.userName}
-                  onChange={props.handleChange}
-                  error={error || !!props.errors.userName}
-                  helperText={props.errors.userName}
-                />
+              <Grid container>
+                <Grid item xs={12} className="p-b-32">
+                  <TextInput
+                    fullWidth
+                    name="userName"
+                    label="Username"
+                    value={props.values.userName}
+                    onChange={props.handleChange}
+                    error={error || !!props.errors.userName}
+                    helperText={props.errors.userName}
+                  />
+                </Grid>
+
+                <Grid item xs={12} className="p-b-32">
+                  <TextInput
+                    fullWidth
+                    type={passwordVisible ? 'text' : 'password'}
+                    label="Password"
+                    name="password"
+                    value={props.values.password}
+                    onChange={props.handleChange}
+                    error={error || !!props.errors.password}
+                    helperText={error ? error : props.errors.password}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment
+                          position="end"
+                          onClick={() => setPasswordVisible(!passwordVisible)}
+                        >
+                          {passwordVisible ? <Visibility /> : <VisibilityOff />}
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
               </Grid>
 
-              <Grid item xs={12} className="p-b-32">
-                <TextInput
-                  fullWidth
-                  type={passwordVisible ? 'text' : 'password'}
-                  label="Password"
-                  name="password"
-                  value={props.values.password}
-                  onChange={props.handleChange}
-                  error={error || !!props.errors.password}
-                  helperText={error ? error : props.errors.password}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment
-                        position="end"
-                        onClick={() => setPasswordVisible(!passwordVisible)}
-                      >
-                        {passwordVisible ? <Visibility /> : <VisibilityOff />}
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-            </Grid>
+              <Divider style={{ marginBottom: 24 }} />
 
-            <Divider style={{ marginBottom: 24 }} />
-
-            <div className="flex flex-end">
-              <Button
-                variant="contained"
-                type="submit"
-                disabled={loading}
-                disableElevation
-              >
-                Sign In
-              </Button>
-            </div>
-          </form>
-        </CustomCard>
-      )}
-    </Formik>
+              <div className="flex flex-end">
+                <Button
+                  variant="contained"
+                  type="submit"
+                  disabled={loading}
+                  disableElevation
+                >
+                  Sign In
+                </Button>
+              </div>
+            </form>
+          </CustomCard>
+        )}
+      </Formik>
+    </>
   )
 }
 

@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
-import { AccountCircle } from '@mui/icons-material'
 import { AppBar, Toolbar } from '@mui/material'
+import { RootStateOrAny, useSelector } from 'react-redux'
+import AccountMenu from './AccountMenu'
 
 const StyledToolbar = styled(Toolbar)`
   justify-content: space-between;
@@ -15,6 +16,8 @@ const Logo = styled.div`
 `
 
 const Header = () => {
+  const { userInfo } = useSelector((state: RootStateOrAny) => state.userLogin)
+
   // const { isDarkTheme, setIsDarkTheme } = useContext(Context)
 
   // const changeTheme = () => {
@@ -26,7 +29,12 @@ const Header = () => {
       <StyledToolbar>
         {/* <Menu onClick={changeTheme}  /> */}
         <Logo>Q2Behave</Logo>
-        <AccountCircle />
+        <div className="flex align-center">
+          <div className="m-r-6">
+            {userInfo && `${userInfo.firstName} ${userInfo.lastName}`}
+          </div>
+          <AccountMenu />
+        </div>
       </StyledToolbar>
     </AppBar>
   )
