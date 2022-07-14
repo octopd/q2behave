@@ -74,7 +74,7 @@ function App() {
               <Route
                 path="/create-account"
                 element={
-                  userInfo && userInfo.role !== UserRoles.ADMIN ? (
+                  userInfo && userInfo.role === UserRoles.ADMIN ? (
                     <CreateAccount />
                   ) : (
                     <Navigate to="/" />

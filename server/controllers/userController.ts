@@ -5,7 +5,6 @@ import mysql from 'mysql2'
 import nodemailer from 'nodemailer'
 import generateToken from '../utils/generateToken'
 
-
 const DB_HOST = process.env.DB_HOST
 const DB_USER = process.env.DB_USER
 const DB_PASSWORD = process.env.DB_PASSWORD
@@ -62,7 +61,7 @@ const authUser = asyncHandler(async (req, res) => {
 
 // @desc    Add new user
 // @route   POST /api/user/signup
-// @access  Public
+// @access  Private/Admin
 const createUser = asyncHandler(async (req, res) => {
     const { email, password, firstName, lastName, admin } = req.body
 

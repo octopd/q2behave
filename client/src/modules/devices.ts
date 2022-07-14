@@ -1,4 +1,5 @@
 import axios, { AxiosError } from "axios"
+import { RootStateOrAny } from "react-redux"
 import { Action, Dispatch } from "redux"
 
 const DEVICES_REQUEST = 'DEVICES_REQUEST'
@@ -10,13 +11,24 @@ export interface ActionWithPayload<T> extends Action {
     payload: T;
 }
 
-export const getDevices = () => async (dispatch: Dispatch) => {
+export const getDevices = () => async (dispatch: Dispatch, getState: RootStateOrAny) => {
     try {
         dispatch({ type: DEVICES_REQUEST })
 
         const {
+            userLogin: { userInfo },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        }
+
+        const {
             data
-        } = await axios.get(`/api/data/devices`)
+        } = await axios.get(`/api/data/devices`, config)
 
         dispatch({
             type: DEVICES_SUCCESS,

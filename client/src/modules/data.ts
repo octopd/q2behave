@@ -40,8 +40,16 @@ export const getData = () => async (dispatch: Dispatch, getState: RootStateOrAny
     const begin = new Date().getTime()
 
     const {
+        userLogin: { userInfo },
         dateRange: { dateRange },
     } = getState()
+
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userInfo.token}`,
+        },
+    }
 
     const start = dateRange[0].getTime()
     const end = dateRange[1].getTime()
@@ -49,7 +57,7 @@ export const getData = () => async (dispatch: Dispatch, getState: RootStateOrAny
     try {
         dispatch({ type: DATA_REQUEST })
 
-        const { data } = await axios.get(`/api/data/${start}/${end}`)
+        const { data } = await axios.get(`/api/data/${start}/${end}`, config)
 
         const formattedData = data.map((x: DataSet, index: number) => ({
             ...x,

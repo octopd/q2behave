@@ -20,7 +20,7 @@ const conn = mysql.createPool({
 
 // @desc    Get data
 // @route   GET /api/data
-// @access  Public //TODO: Make private
+// @access  Private
 const getData = asyncHandler(async (req, res) => {
   // TODO: Add error handling
   // TODO: add comments...
@@ -106,7 +106,7 @@ const getData = asyncHandler(async (req, res) => {
 
 // @desc    Get Devices
 // @route   GET /api/data
-// @access  Public //TODO: Make private
+// @access  Private
 const getDevices = asyncHandler(async (req, res) => {
   //TODO: Add error handling
   const query = `SELECT DeviceName from devices`
