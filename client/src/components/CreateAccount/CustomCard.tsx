@@ -23,9 +23,13 @@ interface Props {
   children: ReactChild
 }
 
-const CustomCard = ({ children }: Props) => {
+const CustomCard = ({ children, ...restProps }: Props) => {
   return (
-    <StyledCard elevation={8} sx={{ p: 3, borderRadius: 4, maxWidth: 500 }}>
+    <StyledCard
+      elevation={8}
+      sx={{ p: 3, borderRadius: 4, maxWidth: 500, minWidth: 500 }}
+      {...restProps}
+    >
       {children}
     </StyledCard>
   )

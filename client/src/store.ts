@@ -5,12 +5,15 @@ import { userCreateReducer } from './modules/createAccount'
 import { dataReducer, dataSourcesReducer, dataTypesReducer } from './modules/data'
 import { dateRangeReducer, hotButtonReducer } from './modules/dateRange'
 import { devicesReducer } from './modules/devices'
+import { resetPasswordLinkReducer, resetUserPasswordReducer } from './modules/resetPassword'
 import { userLoginReducer } from './modules/userInfo'
 import { zoomReducer } from './modules/zoom'
 
 const reducer = combineReducers({
     userLogin: userLoginReducer,
     userCreate: userCreateReducer,
+    resetPasswordLink: resetPasswordLinkReducer,
+    resetUserPassword: resetUserPasswordReducer,
     data: dataReducer,
     dataSources: dataSourcesReducer,
     dataTypes: dataTypesReducer,

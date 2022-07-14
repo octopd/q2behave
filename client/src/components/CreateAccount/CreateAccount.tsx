@@ -10,6 +10,7 @@ import {
 import { Formik, FormikErrors } from 'formik'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { emailValidator } from '../../helpers/emailValidator'
+import { passwordIsNotValid } from '../../helpers/passwordValidator'
 import { useBoolean } from '../../hooks/useBoolean'
 import { createAccount } from '../../modules/createAccount'
 import TextInput from '../Form/TextInput'
@@ -24,33 +25,6 @@ export interface NewUserValues {
   password: string
   confirmPassword: string
   admin: false
-}
-
-const passwordIsNotValid = (password: string) => {
-  const hasSpecialCharacters = /[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/
-  const hasLowercase = /^(?=.*[a-z])/
-  const hasUppercase = /^(?=.*[A-Z])/
-  const hasNumber = /\d/
-
-  let error = ''
-
-  if (!hasLowercase.test(password)) {
-    error = 'Password must contain at least one lowercase letter'
-  }
-  if (!hasUppercase.test(password)) {
-    error = 'Password must contain at least one uppercase letter'
-  }
-  if (!hasSpecialCharacters.test(password)) {
-    error = 'Must contain at least one special character'
-  }
-  if (!hasNumber.test(password)) {
-    error = 'Must contain at least one number'
-  }
-  if (password.length < 8) {
-    error = 'Password must be at least 8 characters long'
-  }
-
-  return error
 }
 
 const CreateAccount = () => {
@@ -116,7 +90,7 @@ const CreateAccount = () => {
                 <Divider />
 
                 <Grid container>
-                  <Grid item xs={12} className="p-b-16">
+                  <Grid item xs={12} className="p-b-24">
                     <TextInput
                       fullWidth
                       name="firstName"
@@ -128,7 +102,7 @@ const CreateAccount = () => {
                     />
                   </Grid>
 
-                  <Grid item xs={12} className="p-b-16">
+                  <Grid item xs={12} className="p-b-24">
                     <TextInput
                       fullWidth
                       name="lastName"
@@ -139,7 +113,7 @@ const CreateAccount = () => {
                       helperText={props.errors.lastName}
                     />
                   </Grid>
-                  <Grid item xs={12} className="p-b-16">
+                  <Grid item xs={12} className="p-b-24">
                     <TextInput
                       fullWidth
                       name="email"
@@ -151,7 +125,7 @@ const CreateAccount = () => {
                     />
                   </Grid>
 
-                  <Grid item xs={12} className="p-b-16">
+                  <Grid item xs={12} className="p-b-24">
                     <TextInput
                       fullWidth
                       type={password ? 'text' : 'password'}
@@ -174,7 +148,7 @@ const CreateAccount = () => {
                     />
                   </Grid>
 
-                  <Grid item xs={12} className="p-b-16">
+                  <Grid item xs={12} className="p-b-24">
                     <TextInput
                       fullWidth
                       type={confirmPassword ? 'text' : 'password'}

@@ -10,6 +10,7 @@ import {
 import { Formik, FormikErrors } from 'formik'
 import { useState } from 'react'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { login } from '../../modules/userInfo'
 import TextInput from '../Form/TextInput'
@@ -41,6 +42,7 @@ const CustomCard = styled(Card)`
 
 const Login = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const [passwordVisible, setPasswordVisible] = useState(false)
 
@@ -50,6 +52,10 @@ const Login = () => {
 
   const handleSubmit = (values: LoginValues) => {
     dispatch(login(values.email, values.password))
+  }
+
+  const handleClick = () => {
+    navigate('/forgot-password')
   }
 
   return (
@@ -132,7 +138,14 @@ const Login = () => {
 
               <Divider style={{ marginBottom: 24 }} />
 
-              <div className="flex flex-end">
+              <div className="flex space-between">
+                <Button
+                  onClick={handleClick}
+                  style={{ marginLeft: -24 }}
+                  variant="text"
+                >
+                  Forgot Password?
+                </Button>
                 <Button
                   variant="contained"
                   type="submit"

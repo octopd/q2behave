@@ -1,15 +1,14 @@
-import { AccountCircle } from '@mui/icons-material'
+import { AccountCircle, PersonAdd } from '@mui/icons-material'
 import Logout from '@mui/icons-material/Logout'
-import PersonAdd from '@mui/icons-material/PersonAdd'
-import Settings from '@mui/icons-material/Settings'
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import { MouseEvent, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { UserRoles } from '../../enum'
 import { logout } from '../../modules/userInfo'
 
 export default function AccountMenu() {
@@ -18,6 +17,8 @@ export default function AccountMenu() {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
+
+  const { userInfo } = useSelector((state: RootStateOrAny) => state.userLogin)
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -32,6 +33,10 @@ export default function AccountMenu() {
 
   const handleCreateAccount = () => {
     navigate('/create-account')
+  }
+
+  const handleLoginClick = () => {
+    navigate('/')
   }
 
   return (
@@ -82,24 +87,35 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleCreateAccount}>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem>
+        {userInfo && userInfo.role === UserRoles.ADMIN && (
+          <MenuItem onClick={handleCreateAccount}>
+            <ListItemIcon>
+              <PersonAdd fontSize="small" />
+            </ListItemIcon>
+            Add another account
+          </MenuItem>
+        )}
+        {/* <MenuItem>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
           Reset Password
-        </MenuItem>
-        <MenuItem onClick={handleLogout}>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
+        </MenuItem> */}
+        {userInfo ? (
+          <MenuItem onClick={handleLogout}>
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={handleLoginClick}>
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Login
+          </MenuItem>
+        )}
       </Menu>
     </>
   )

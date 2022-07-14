@@ -9,6 +9,8 @@ import { RootStateOrAny, useSelector } from 'react-redux'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import styled from 'styled-components'
 import CreateAccount from './components/CreateAccount/CreateAccount'
+import ForgotPassword from './components/ForgotPassword/ForgotPassword'
+import ResetPassword from './components/ForgotPassword/ResetPassword'
 import Layout from './components/Layout/Layout'
 import Login from './components/Login/Login'
 import { UserRoles } from './enum'
@@ -79,6 +81,8 @@ function App() {
                   )
                 }
               />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password/:code" element={<ResetPassword />} />
             </Routes>
           </BrowserRouter>
         </AppContainer>

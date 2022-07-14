@@ -27,8 +27,6 @@ export const createAccount = (values: NewUserValues) => async (dispatch: Dispatc
             },
         }
 
-        console.log(values)
-
         const { data } = await axios.post(
             '/api/user/signup',
             values,
@@ -45,7 +43,7 @@ export const createAccount = (values: NewUserValues) => async (dispatch: Dispatc
 
         dispatch({
             type: USER_CREATE_FAIL,
-            payload: error.response && error.response.data.message
+            payload: error.response && error.response.data
         })
     }
 }
