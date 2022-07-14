@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import { useContext } from 'react'
 import { DataSet } from '../../actions/dataActions'
+import { Units } from '../../enum'
 import { Context } from '../../providers/ContextProvider'
 import { dataTypesList } from '../DataControls/DataTypeSelector'
 
@@ -25,11 +26,53 @@ const DataSetRow = styled.div<RowProps>`
     content: '';
     position: absolute;
     left: 0px;
-    top: 3px;
-    height: 12px;
-    width: 12px;
-    border-radius: 3px;
-    background-color: ${(props) => props.color};
+    top: 5px;
+  }
+
+  &.square {
+    &:after {
+      background-color: ${(props) => props.color};
+      height: 12px;
+      width: 12px;
+    }
+  }
+
+  &.triangle {
+    &:after {
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 12px solid ${(props) => props.color};
+    }
+  }
+
+  &.circle {
+    &:after {
+      background-color: ${(props) => props.color};
+      height: 12px;
+      width: 12px;
+      border-radius: 50%;
+    }
+  }
+
+  &.cross {
+    &:before,
+    &:after {
+      content: ' ';
+      position: absolute;
+      height: 12px;
+      width: 3px;
+      background-color: ${(props) => props.color};
+    }
+
+    &:before {
+      transform: rotate(45deg);
+      left: 6px;
+      top: 5px;
+    }
+    &:after {
+      transform: rotate(-45deg);
+      left: 6px;
+    }
   }
 
   .name {
@@ -54,9 +97,15 @@ const LegendItem = ({ dataSet }: Props) => {
   const name = dataTypesList.find((x) => x.key === dataSet.name)
 
   return (
-    <DataSetRow color={dataSet.color} isDarkTheme={isDarkTheme}>
-      <div className="dot name">{name && name.name}</div>
-      <div className="unit">{mostRecentValue} Unit</div>
+    <DataSetRow
+      color={dataSet.color}
+      isDarkTheme={isDarkTheme}
+      className={dataSet.markerType}
+    >
+      <div className="name">{name && name.name}</div>
+      <div className="unit">
+        {mostRecentValue} {Units[dataSet.name as keyof typeof Units]}
+      </div>
     </DataSetRow>
   )
 }

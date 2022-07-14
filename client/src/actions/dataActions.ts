@@ -3,16 +3,21 @@ import _ from "lodash"
 import { RootStateOrAny } from "react-redux"
 import { Dispatch } from "redux"
 import { DATA_FAIL, DATA_REQUEST, DATA_SOURCES_FILTERED, DATA_SUCCESS, DEVICES_FAIL, DEVICES_REQUEST, DEVICES_SUCCESS } from "../constants/dataConstants"
-import { assignColor } from "../helpers/colorHelpers"
+import { assignColor } from "../helpers/colorHelper"
+import { assignMarker } from "../helpers/markerTypeHelper"
 
+export interface DataPoint {
+    x: number
+    y: number
+}
 export interface DataSet {
     name: string
     deviceID: string
     dataType: string
-    dataPoints: [{ x: number, y: number }],
+    dataPoints: DataPoint[],
     showInLegend: boolean,
     color: string,
-    marker: { symbol: string }
+    markerType: string
 }
 
 export const getData = () => async (dispatch: Dispatch, getState: RootStateOrAny) => {
@@ -34,7 +39,9 @@ export const getData = () => async (dispatch: Dispatch, getState: RootStateOrAny
         const formattedData = data.map((x: DataSet, index: number) => ({
             ...x,
             color: assignColor(),
+            markerType: assignMarker(x.deviceID),
             type: 'spline',
+            axisYIndex: x.name.includes("Magno_X") || x.name.includes("Magno_Y") ? 0 : 1
         }))
 
         dispatch({
@@ -45,6 +52,7 @@ export const getData = () => async (dispatch: Dispatch, getState: RootStateOrAny
         if (data) {
             console.log(_.round(((new Date().getTime() - begin) / 1000), 2) + " seconds to finish...")
         }
+
     } catch (error) {
         const err = error as AxiosError
 
