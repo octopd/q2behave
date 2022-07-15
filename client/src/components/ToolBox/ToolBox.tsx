@@ -39,7 +39,7 @@ const Toolbox = () => {
       .map((dataSet: DataSet) => {
         return dataSet.dataPoints.map((dataPoint: DataPoint) => {
           const row = {
-            timestamp: dataPoint.x,
+            timestamp: dayjs(dataPoint.x).subtract(4, 'hour'),
             name: dataSet.name,
             watchID: dataSet.deviceID,
             value: dataPoint.y,
