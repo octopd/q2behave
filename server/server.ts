@@ -5,7 +5,7 @@ import iotRoutes from "./routes/iotRoutes"
 import userRoutes from "./routes/userRoutes"
 
 const corsOptions = {
-  origin: 'https://q2behave.azureedge.net',
+  origin: ['https://q2behave.azureedge.net', 'https://q2behave.azurewebsites.net'],
   optionsSuccessStatus: 200
 }
 

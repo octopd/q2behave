@@ -25,8 +25,8 @@ const conn = mysql.createPool({
 const transport = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: NODEMAILER_USER,
-        pass: NODEMAILER_PASSWORD,
+        user: "info@octopd.com",
+        pass: "Main$T706",
     },
 })
 
@@ -97,6 +97,9 @@ const createUser = asyncHandler(async (req, res) => {
 const sendResetLink = asyncHandler(async (req, res) => {
     const { email } = req.body
 
+    console.log("USER: ", NODEMAILER_USER)
+    console.log("pass: ", NODEMAILER_PASSWORD)
+
     const userQuery = `SELECT * FROM users WHERE Email = '${email}' LIMIT 1`
 
     conn.query(userQuery, async function (err: any, result: any, fields: any) {
@@ -127,14 +130,14 @@ const sendResetLink = asyncHandler(async (req, res) => {
 
                 transport
                     .sendMail({
-                        from: NODEMAILER_USER,  //TODO: put this in dotenv
+                        from: NODEMAILER_USER,
                         to: email.toLowerCase(),
                         subject: 'Reset your password',
                         html: `<div style = "padding: 32px; max-width: 560px; " >
                 <div style="width: 80px;height: 3px; background: #018bb0;background-image: linear-gradient(283deg, rgba(1, 139, 176, 1) 0%, rgba(100, 179, 139, 1) 76%,rgba(178, 210, 111, 1) 100%);" > </div>
                     <h1 style = "font-size: 24px;font-weight: bold;margin-top: 24px;margin-bottom: 48px;" > Reset your password </h1>
                         <p style = "margin-bottom: 56px;" > Hello, ${user.FirstName}! We received a password reset request.Please use the link below to create a new password.The link will expire in 24 hours.</p>
-                            <a style = "text-decoration:none;border-radius:2px;padding: 12px 16px;color: white;font-weight: bold;background: #005072;background-image: linear-gradient(283deg, rgba(21, 158, 190, 0.95), #005072);" href = "${DOMAIN}/reset-password/${confirmationCode}" > Create a new password </a>
+                            <a style = "text-decoration:none;border-radius:2px;padding: 12px 16px;color: white;font-weight: bold;background: #005072;background-image: linear-gradient(283deg, rgba(21, 158, 190, 0.95), #005072);" href="https://q2behave.azureedge.net/reset-password/${confirmationCode}" > Create a new password </a>
                                 <p style = "margin-top: 160px;" > If you think you’ve received this email by mistake, please contact us at < a href = "info@octopd.com" > info@octopd.com</a>.</p>
                                     </div>
                                     </div>`,

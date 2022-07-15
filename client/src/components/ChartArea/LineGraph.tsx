@@ -53,6 +53,24 @@ const LineGraph = () => {
       labelFontSize: 12,
       labelFormatter: (t: any) => dayjs(t.value).format('MMM D [at] h:mm:ssa'),
     },
+    toolTip: {
+      backgroundColor: '#ffffff',
+      contentFormatter: function (e: any) {
+        console.log(e)
+        return (
+          '<strong>Watch:</strong> ' +
+          e.entries[0].dataSeries.options.deviceID +
+          '<br/>' +
+          '<strong>Sensor Type:</strong> ' +
+          e.entries[0].dataSeries.options.name +
+          '<br/><br/>' +
+          '<strong>Value:</strong> ' +
+          e.entries[0].dataPoint.y +
+          '<br/> <strong>Time:</strong> ' +
+          dayjs(e.entries[0].dataPoint.x).format('HH:MM:ss')
+        )
+      },
+    },
   }
 
   const containerProps = {
