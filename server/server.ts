@@ -5,7 +5,7 @@ import iotRoutes from "./routes/iotRoutes"
 import userRoutes from "./routes/userRoutes"
 
 const corsOptions = {
-  origin: 'https://q2behavestorage.z13.web.core.windows.net',
+  origin: 'https://q2behave.azureedge.net',
   optionsSuccessStatus: 200
 }
 
