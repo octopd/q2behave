@@ -9,8 +9,8 @@ const DB_HOST = process.env.DB_HOST
 const DB_USER = process.env.DB_USER
 const DB_PASSWORD = process.env.DB_PASSWORD
 const DB_NAME = process.env.DB_NAME
-const EMAIL_USER = process.env.NODEMAILER_USER
-const EMAIL_PASSWORD = process.env.NODEMAILER_PASSWORD
+const NODEMAILER_USER = process.env.NODEMAILER_USER
+const NODEMAILER_PASSWORD = process.env.NODEMAILER_PASSWORD
 const DOMAIN = process.env.DOMAIN
 
 const conn = mysql.createPool({
@@ -25,8 +25,8 @@ const conn = mysql.createPool({
 const transport = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: EMAIL_USER,
-        pass: EMAIL_PASSWORD,
+        user: NODEMAILER_USER,
+        pass: NODEMAILER_PASSWORD,
     },
 })
 
@@ -127,7 +127,7 @@ const sendResetLink = asyncHandler(async (req, res) => {
 
                 transport
                     .sendMail({
-                        from: EMAIL_USER,  //TODO: put this in dotenv
+                        from: NODEMAILER_USER,  //TODO: put this in dotenv
                         to: email.toLowerCase(),
                         subject: 'Reset your password',
                         html: `<div style = "padding: 32px; max-width: 560px; " >
