@@ -6,6 +6,14 @@ import { useDataSetsInView } from '../../hooks/useDataSetsInView'
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart
 
+const yAxes = Array(3).fill({
+  tickLength: 0,
+  tickThickness: 0,
+  lineThickness: 0,
+  labelFormatter: () => '',
+  margin: 0,
+})
+
 interface ViewPort {
   x: {
     min: number
@@ -39,12 +47,7 @@ const LineGraph = () => {
     zoomType: 'xy',
     data: dataSetsInView,
     backgroundColor: 'transparent',
-    axisY: [
-      {
-        tickLength: 0,
-        labelFormatter: () => '',
-      },
-    ],
+    axisY: yAxes,
     axisX: {
       labelFontColor: '#c2c7ce',
       labelFontSize: 12,

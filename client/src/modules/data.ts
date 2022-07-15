@@ -3,6 +3,7 @@ import _ from "lodash"
 import { RootStateOrAny } from "react-redux"
 import { Action, Dispatch } from "redux"
 import { DataType, dataTypesList } from "../components/DataControls/DataTypeSelector"
+import { axisYIndex } from "../helpers/axisYIndex"
 import { assignColor } from "../helpers/colorHelper"
 import { assignMarker } from "../helpers/markerTypeHelper"
 
@@ -29,6 +30,7 @@ export interface DataSet {
     showInLegend: boolean,
     color: string,
     markerType: string
+    axisYIndex: number
 }
 
 export interface ActionWithPayload<T> extends Action {
@@ -64,7 +66,7 @@ export const getData = () => async (dispatch: Dispatch, getState: RootStateOrAny
             color: assignColor(),
             markerType: assignMarker(x.deviceID),
             type: 'spline',
-            axisYIndex: x.name.includes("Magno_X") || x.name.includes("Magno_Y") ? 0 : 1
+            axisYIndex: axisYIndex(x.name)
         }))
 
         dispatch({
