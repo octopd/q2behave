@@ -30,8 +30,6 @@ const protect = asyncHandler(async (req, res, next) => {
 
             const decoded: any = jwt.verify(token, JWT_SECRET)
 
-            console.log(decoded)
-
             const query = `SELECT * FROM users WHERE UserID = '${decoded.id}' LIMIT 1`
 
             conn.query(query, function (err: any, results: any) {

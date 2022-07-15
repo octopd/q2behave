@@ -70,8 +70,6 @@ export const resetUserPassword = (password: string, code: string | undefined) =>
     } catch (err) {
         const error = err as AxiosError
 
-        console.log(error.response)
-
         dispatch({
             type: USER_RESET_PASSWORD_FAIL,
             payload: error.response && error.response.data

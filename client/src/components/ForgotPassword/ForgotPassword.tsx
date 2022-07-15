@@ -1,7 +1,11 @@
 import { Button, Divider, Grid } from '@mui/material'
 import { Formik, FormikErrors } from 'formik'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
-import { sendResetPasswordLink } from '../../modules/resetPassword'
+import { useNavigate } from 'react-router-dom'
+import {
+  sendResetPasswordLink,
+  USER_RESET_LINK_RESET,
+} from '../../modules/resetPassword'
 import CustomCard from '../CreateAccount/CustomCard'
 import TextInput from '../Form/TextInput'
 import Header from '../Header/Header'
@@ -12,6 +16,7 @@ export interface RestPasswordValues {
 
 const ForgotPassword = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const { loading, error, success } = useSelector(
     (state: RootStateOrAny) => state.resetPasswordLink
@@ -19,6 +24,11 @@ const ForgotPassword = () => {
 
   const handleSubmit = (values: RestPasswordValues) => {
     dispatch(sendResetPasswordLink(values.email))
+  }
+
+  const handleBackClick = () => {
+    dispatch({ type: USER_RESET_LINK_RESET })
+    navigate('/')
   }
 
   return (
@@ -45,7 +55,11 @@ const ForgotPassword = () => {
             <form onSubmit={props.handleSubmit}>
               <h2>Reset Password</h2>
 
-              <p>Enter your email to receive a reset password link.</p>
+              {success ? (
+                <p>Email sent.</p>
+              ) : (
+                <p>Enter your email to receive a reset password link.</p>
+              )}
 
               <Divider />
 
@@ -65,9 +79,16 @@ const ForgotPassword = () => {
 
               <Divider />
 
-              {success && <p>Email sent.</p>}
+              <div className="flex space-between">
+                <Button
+                  onClick={handleBackClick}
+                  variant="outlined"
+                  disabled={loading}
+                  sx={{ pl: 3, pr: 3 }}
+                >
+                  Back
+                </Button>
 
-              <div className="flex flex-end">
                 <Button
                   variant="contained"
                   type="submit"

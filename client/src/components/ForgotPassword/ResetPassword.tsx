@@ -34,8 +34,6 @@ const ResetPassword = ({ match }: any) => {
     (state: RootStateOrAny) => state.resetUserPassword
   )
 
-  console.log(error)
-
   useEffect(() => {
     if (success) {
       setResetSuccess(true)
