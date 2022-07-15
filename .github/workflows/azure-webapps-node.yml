@@ -9,7 +9,7 @@ on:
 env:
   NODE_VERSION: '16.15.0'
   STORAGE_ACCOUNT_NAME: 'q2behavestorage'
-  CDN_PROFILE_NAME: 'cdn-profile-q2behave'
+  CDN_PROFILE_NAME: 'cdn-profile-q2behave/q2behave'
   CDN_ENDPOINT: 'https://q2behave.azureedge.net'
   RESOURCE_GROUP: 'Q2Behave'
 
@@ -44,7 +44,6 @@ jobs:
           inlineScript: |
             az storage blob upload-batch --account-name ${{ env.STORAGE_ACCOUNT_NAME }} --auth-mode key --overwrite true -d '$web' -s ./client/build
 
-      #### Uncomment once caching is applied
       # - name: Purge CDN endpoint
       #   uses: azure/CLI@v1
       #   with:
