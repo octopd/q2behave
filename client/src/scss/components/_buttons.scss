@@ -2,7 +2,7 @@ button.MuiButton-root {
   border-radius: 100px;
   padding: 10px 24px;
 
-  &.MuiButton-outlinedPrimary {
+  &.MuiButton-outlinedPrimary:not(.std) {
     border: 1px solid rgba(0, 0, 0, 0.12);
   }
 

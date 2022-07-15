@@ -9,6 +9,7 @@ import {
 } from '@mui/material'
 import { Formik, FormikErrors } from 'formik'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { emailValidator } from '../../helpers/emailValidator'
 import { passwordIsNotValid } from '../../helpers/passwordValidator'
 import { useBoolean } from '../../hooks/useBoolean'
@@ -29,6 +30,7 @@ export interface NewUserValues {
 
 const CreateAccount = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const { loading, error, success } = useSelector(
     (state: RootStateOrAny) => state.userCreate
@@ -39,6 +41,10 @@ const CreateAccount = () => {
 
   const handleSubmit = (values: NewUserValues) => {
     dispatch(createAccount(values))
+  }
+
+  const handleCancel = () => {
+    navigate('/')
   }
 
   return (
@@ -185,7 +191,16 @@ const CreateAccount = () => {
 
                 <Divider />
 
-                <div className="flex flex-end">
+                <div className="flex space-between">
+                  <Button
+                    variant="outlined"
+                    disabled={loading}
+                    sx={{ pl: 3, pr: 3 }}
+                    className="std"
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </Button>
                   <Button
                     variant="contained"
                     type="submit"

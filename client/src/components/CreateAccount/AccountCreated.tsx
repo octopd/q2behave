@@ -2,6 +2,7 @@ import { AccountCircle, ContentCopy } from '@mui/icons-material'
 import { Button, Divider } from '@mui/material'
 import { FormikProps } from 'formik'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { USER_CREATE_RESET } from '../../modules/createAccount'
 import { NewUserValues } from './CreateAccount'
@@ -26,6 +27,7 @@ interface Props {
 
 const AccountCreated = ({ formik }: Props) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const copyCredentials = () => {
     navigator.clipboard.writeText(
@@ -36,6 +38,11 @@ const AccountCreated = ({ formik }: Props) => {
   const handleDone = () => {
     formik.resetForm()
     dispatch({ type: USER_CREATE_RESET })
+  }
+
+  const handleHomeClick = () => {
+    dispatch({ type: USER_CREATE_RESET })
+    navigate('/')
   }
 
   return (
@@ -66,13 +73,20 @@ const AccountCreated = ({ formik }: Props) => {
 
         <Divider />
 
-        <div className="flex flex-end">
+        <div className="flex space-between">
+          <Button
+            onClick={handleHomeClick}
+            variant="outlined"
+            sx={{ pl: 3, pr: 3 }}
+          >
+            Home
+          </Button>
           <Button
             onClick={handleDone}
             variant="contained"
             sx={{ pl: 3, pr: 3 }}
           >
-            Done
+            Add Another
           </Button>
         </div>
       </>
