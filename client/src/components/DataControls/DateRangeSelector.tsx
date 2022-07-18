@@ -277,7 +277,9 @@ const DateRangeSelector = () => {
                       <TimePicker
                         value={formatTime(start)}
                         onChange={(value: any) => {
-                          setStartError(value.getHours() > 12)
+                          setStartError(
+                            value && value.getHours() > 12 ? true : false
+                          )
                           setStart(value || new Date())
                         }}
                         renderInput={(params) => <TextField {...params} />}
@@ -304,7 +306,9 @@ const DateRangeSelector = () => {
                       <TimePicker
                         value={formatTime(end)}
                         onChange={(value: any) => {
-                          setEndError(value.getHours() > 12)
+                          setEndError(
+                            value && value.getHours() > 12 ? true : false
+                          )
                           setEnd(value || new Date())
                         }}
                         renderInput={(params) => <TextField {...params} />}

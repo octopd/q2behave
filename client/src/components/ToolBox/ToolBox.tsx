@@ -31,11 +31,7 @@ const Toolbox = () => {
 
   const [data, setData] = useState<any>([])
   const { isDarkTheme } = useContext(Context)
-  const { loading, data: sourceData } = useSelector(
-    (state: RootStateOrAny) => state.data
-  )
-
-  console.log(dataSetsInView)
+  const { loading } = useSelector((state: RootStateOrAny) => state.data)
 
   const lastUpdated = loading ? false : dayjs(new Date()).format('h:mm:ss a')
 
