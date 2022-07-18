@@ -6,7 +6,7 @@ import LegendItem from './LegendItem'
 
 const Label = styled.div`
   font-size: 18px;
-  margin: 24px 0;
+  margin: 16px 0;
 `
 
 const ScrollableList = styled.div`

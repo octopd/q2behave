@@ -1,11 +1,11 @@
 import { Card, CircularProgress } from '@mui/material'
 import { useContext } from 'react'
+import { RootStateOrAny, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { Context } from '../../providers/ContextProvider'
-import ToolBox from './ZoomControls'
-import LineGraph from './LineGraph'
 import Legend from './Legend'
-import { RootStateOrAny, useSelector } from 'react-redux'
+import LineGraph from './LineGraph'
+import ToolBox from './ZoomControls'
 
 interface StyledProps {
   $isDarkTheme: boolean
@@ -24,7 +24,8 @@ const DataSetsContainer = styled.div`
   width: 300px;
   padding-left: 32px;
   border-left: 1px solid #72777e;
-  height: calc(100% - 20px);
+  height: 100%;
+  overflow: hidden;
 `
 
 const LoadingSpinner = styled(CircularProgress)`

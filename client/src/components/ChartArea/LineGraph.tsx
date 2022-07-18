@@ -74,7 +74,7 @@ const LineGraph = () => {
   }
 
   const containerProps = {
-    height: 'calc(100% - 50px)',
+    height: 'calc(100% - 0px)',
   }
 
   useEffect(() => {
