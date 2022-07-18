@@ -4,6 +4,7 @@ import dayjs from 'dayjs'
 import { useContext, useState } from 'react'
 import { CSVLink } from 'react-csv'
 import { RootStateOrAny, useSelector } from 'react-redux'
+import { useDataSetsInView } from '../../hooks/useDataSetsInView'
 import { DataPoint, DataSet } from '../../modules/data'
 import { Context } from '../../providers/ContextProvider'
 import ChartTypeSelector from './ChartTypeSelector'
@@ -26,16 +27,20 @@ const LastUpdated = styled.p<LUProps>`
 `
 
 const Toolbox = () => {
+  const dataSetsInView = useDataSetsInView()
+
   const [data, setData] = useState<any>([])
   const { isDarkTheme } = useContext(Context)
   const { loading, data: sourceData } = useSelector(
     (state: RootStateOrAny) => state.data
   )
 
+  console.log(dataSetsInView)
+
   const lastUpdated = loading ? false : dayjs(new Date()).format('h:mm:ss a')
 
   const handleCSVClick = () => {
-    const formatted = sourceData
+    const formatted = dataSetsInView
       .map((dataSet: DataSet) => {
         return dataSet.dataPoints.map((dataPoint: DataPoint) => {
           const row = {
