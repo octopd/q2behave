@@ -5,6 +5,7 @@ import { Action, Dispatch } from "redux"
 import { DataType, dataTypesList } from "../components/DataControls/DataTypeSelector"
 import { axisYIndex } from "../helpers/axisYIndex"
 import { assignColor } from "../helpers/colorHelper"
+import { convertGMTToEST } from "../helpers/convertGMTToEST"
 import { assignMarker } from "../helpers/markerTypeHelper"
 
 export const DATA_REQUEST = 'DATA_REQUEST'
@@ -53,8 +54,8 @@ export const getData = () => async (dispatch: Dispatch, getState: RootStateOrAny
         },
     }
 
-    const start = dateRange[0].getTime()
-    const end = dateRange[1].getTime()
+    const start = convertGMTToEST(dateRange[0]).getTime()
+    const end = convertGMTToEST(dateRange[1]).getTime()
 
     try {
         dispatch({ type: DATA_REQUEST })
