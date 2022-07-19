@@ -6,14 +6,14 @@ interface UserAttributes {
     FirstName?: string
     LastName?: string
     Email: string
-    EncyptedPassword?: string
+    EncryptedPassword?: string
     UserRole?: string
     LastLogin?: Date
     PasswordKey?: string
     PasswordDate?: Date
 }
 
-export interface UserInput extends Optional<UserAttributes, 'FirstName' | 'LastName' | 'Email' | 'EncyptedPassword'> { }
+export interface UserInput extends Optional<UserAttributes, 'FirstName' | 'LastName' | 'Email' | 'EncryptedPassword'> { }
 export interface UserOutput extends Required<UserAttributes> { }
 
 
@@ -22,7 +22,7 @@ class Users extends Model<UserAttributes, UserInput> implements UserAttributes {
     public FirstName!: string
     public LastName!: string
     public Email!: string
-    public EncyptedPassword!: string
+    public EncryptedPassword!: string
     public UserRole!: string
     public LastLogin!: Date
     public PasswordKey!: string
@@ -53,7 +53,7 @@ Users.init({
         allowNull: false,
         unique: true
     },
-    EncyptedPassword: {
+    EncryptedPassword: {
         type: DataTypes.STRING,
         allowNull: false,
     },

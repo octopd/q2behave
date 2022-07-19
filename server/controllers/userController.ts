@@ -26,7 +26,7 @@ const authUser = asyncHandler(async (req, res) => {
     const user = await Users.findOne({ where: { Email: email } })
 
     if (user) {
-        const validPassword = await bcrypt.compare(password, user.EncyptedPassword)
+        const validPassword = await bcrypt.compare(password, user.EncryptedPassword)
 
         if (validPassword) {
             res.json({
@@ -57,7 +57,7 @@ const createUser = asyncHandler(async (req, res) => {
         },
         defaults: {
             Email: email,
-            EncyptedPassword: await bcrypt.hash(password, 10),
+            EncryptedPassword: await bcrypt.hash(password, 10),
             FirstName: firstName,
             LastName: lastName,
             UserRole: admin
@@ -151,7 +151,7 @@ const resetPassword = asyncHandler(async (req, res) => {
             const encryptedPassword = await bcrypt.hash(password, 10)
 
             const updatedUser = await Users.update({
-                EncyptedPassword: encryptedPassword,
+                EncryptedPassword: encryptedPassword,
                 PasswordDate: dayjs(new Date()).format("YYYY-MM-DD hh:mm:ss") as unknown as Date
             }, {
                 where: {
