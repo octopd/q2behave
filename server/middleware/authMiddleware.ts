@@ -1,11 +1,12 @@
 import asyncHandler from 'express-async-handler'
-import jwt from 'jsonwebtoken'
+import jwt, { Secret } from 'jsonwebtoken'
 import mysql from 'mysql2'
 
 const DB_HOST = process.env.DB_HOST
 const DB_USER = process.env.DB_USER
 const DB_PASSWORD = process.env.DB_PASSWORD
 const DB_NAME = process.env.DB_NAME
+const JWT_SECRET = process.env.JWT_SECRET as Secret
 
 const conn = mysql.createPool({
     host: DB_HOST,
@@ -15,8 +16,6 @@ const conn = mysql.createPool({
     port: 3306,
     ssl: {}
 })
-
-const JWT_SECRET = "JWT_SECRET" //FIXME: TODO: process.env.JWT_SECRET
 
 const protect = asyncHandler(async (req, res, next) => {
     let token

@@ -41,6 +41,7 @@ jobs:
             DB_USER=${{ secrets.DB_USER }}
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             DB_NAME=${{ secrets.DB_NAME }}
+            DB_DRIVER=${{ secrets.DB_DRIVER }}
             NODEMAILER_USER=${{ secrets.NODEMAILER_USER }}
             NODEMAILER_PASSWORD=${{ secrets.NODEMAILER_PASSWORD }}
             DOMAIN=${{ secrets.DOMAIN }}

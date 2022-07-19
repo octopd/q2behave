@@ -28,7 +28,7 @@ export const getDevices = () => async (dispatch: Dispatch, getState: RootStateOr
 
         const {
             data
-        } = await axios.get(`/api/data/devices`, config)
+        } = await axios.get(`/api/device`, config)
 
         dispatch({
             type: DEVICES_SUCCESS,
