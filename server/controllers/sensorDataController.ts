@@ -43,9 +43,6 @@ const getSensorData = asyncHandler(async (req, res) => {
     'SSW4WearOS10',
   ]
 
-  //TODO: Speed up this query by choosing columns that Oana is interested in
-
-
   const sensorData = await SensorData.findAll({
     where: {
       'UTCTics': { [Op.between]: [start, end] }

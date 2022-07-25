@@ -1,10 +1,11 @@
-import expressAsyncHandler from "express-async-handler"
+import asyncHandler from 'express-async-handler'
 import Devices from "../db/models/Devices"
+
 
 // @desc    Get Devices
 // @route   GET /api/devices
 // @access  Private
-const getDevices = expressAsyncHandler(async (req, res) => {
+const getDevices = asyncHandler(async (req, res) => {
     const devices = await Devices.findAll({ attributes: ['DeviceName'] })
     const deviceNames = devices.map((x: any) => x.DeviceName)
 

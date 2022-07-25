@@ -23,7 +23,7 @@ const transport = nodemailer.createTransport({
 const authUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body
 
-    const user = await Users.findOne({ where: { Email: email } })
+    const user = await Users.findOne({ where: { Email: email.toLowerCase() } })
 
     if (user) {
         const validPassword = await bcrypt.compare(password, user.EncryptedPassword)
@@ -56,11 +56,11 @@ const createUser = asyncHandler(async (req, res) => {
             Email: email
         },
         defaults: {
-            Email: email,
+            Email: email.toLowerCase(),
             EncryptedPassword: await bcrypt.hash(password, 10),
             FirstName: firstName,
             LastName: lastName,
-            UserRole: admin
+            UserRole: admin ? "Administrator" : "User"
         },
     })
 
@@ -95,7 +95,7 @@ const sendResetLink = asyncHandler(async (req, res) => {
             PasswordDate: dayjs(new Date()).format("YYYY-MM-DD hh:mm:ss") as unknown as Date
         }, {
             where: {
-                Email: email
+                Email: email.toLowerCase()
             }
         })
 
