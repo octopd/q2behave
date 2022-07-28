@@ -6,6 +6,7 @@ import { dataReducer, dataSourcesReducer, dataTypesReducer } from './modules/dat
 import { dateRangeReducer, hotButtonReducer } from './modules/dateRange'
 import { devicesReducer } from './modules/devices'
 import { resetPasswordLinkReducer, resetUserPasswordReducer } from './modules/resetPassword'
+import { storageDirectoriesReducer } from './modules/storage'
 import { userLoginReducer } from './modules/userInfo'
 import { zoomReducer } from './modules/zoom'
 
@@ -21,6 +22,7 @@ const reducer = combineReducers({
     dateRange: dateRangeReducer,
     hotButton: hotButtonReducer,
     zoom: zoomReducer,
+    storageDirectories: storageDirectoriesReducer
 })
 
 const user = localStorage.getItem('userInfo')

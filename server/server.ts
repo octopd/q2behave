@@ -3,6 +3,7 @@ import 'dotenv/config'
 import express from 'express'
 import deviceRoutes from "./routes/deviceRoutes"
 import sensorDataRoutes from "./routes/sensorDataRoutes"
+import storageRoutes from "./routes/storageRoutes"
 import userRoutes from "./routes/userRoutes"
 
 const corsOptions = {
@@ -21,6 +22,7 @@ app.use(express.json())
 app.use('/api/data', sensorDataRoutes)
 app.use('/api/device', deviceRoutes)
 app.use('/api/user', userRoutes)
+app.use('/api/storage', storageRoutes)
 
 app.use('/', (req, res) => res.send('server is running...'))
 

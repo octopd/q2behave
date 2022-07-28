@@ -46,5 +46,6 @@ jobs:
             NODEMAILER_PASSWORD=${{ secrets.NODEMAILER_PASSWORD }}
             DOMAIN=${{ secrets.DOMAIN }}
             JWT_SECRET=${{ secrets.JWT_SECRET }}
+            AZURE_STORAGE_CONNECTION_STRING=${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
 
           tags: octoio.azurecr.io/q2behave-server:latest
