@@ -6,10 +6,25 @@ interface ActionWithPayload<T> extends Action {
     payload: T
 }
 
+export interface File {
+    name: string
+    properties: {
+        contentLength: number
+    }
+}
+
+export interface Directory {
+    name: string
+    size: number
+    files: File[]
+}
+
 const FILE_DIR_LIST_REQUEST = 'FILE_DIR_LIST_REQUEST'
 const FILE_DIR_LIST_SUCCESS = 'FILE_DIR_LIST_SUCCESS'
 const FILE_DIR_LIST_FAIL = 'FILE_DIR_LIST_FAIL'
 export const FILE_DIR_LIST_RESET = 'FILE_DIR_LIST_RESET'
+export const FILE_SELECTED_LIST_REQUEST = 'FILE_SELECTED_LIST_REQUEST'
+export const FILE_SELECTED_LIST_RESET = 'FILE_SELECTED_LIST_RESET'
 
 export const getFileDirectories = () => async (dispatch: Dispatch, getState: RootStateOrAny) => {
     try {
@@ -46,11 +61,11 @@ export const getFileDirectories = () => async (dispatch: Dispatch, getState: Roo
     }
 }
 
-export const initialState: { loading: boolean, success: boolean, error: string } = {
-    loading: false, success: false, error: ""
+export const initialState: { loading: boolean, success: boolean, error: string, selected: string[] } = {
+    loading: false, success: false, error: "", selected: []
 }
 
-export const storageDirectoriesReducer = (
+export const storageReducer = (
     state = initialState,
     action: ActionWithPayload<any>
 ) => {
@@ -63,6 +78,20 @@ export const storageDirectoriesReducer = (
             return { ...state, loading: false, error: action.payload }
         case FILE_DIR_LIST_RESET:
             return {}
+        default:
+            return state
+    }
+}
+
+export const filesSelectedReducer = (
+    state = initialState,
+    action: ActionWithPayload<string[]>
+) => {
+    switch (action.type) {
+        case FILE_SELECTED_LIST_REQUEST:
+            return { selected: action.payload, }
+        case FILE_SELECTED_LIST_RESET:
+            return { selected: [] }
         default:
             return state
     }
